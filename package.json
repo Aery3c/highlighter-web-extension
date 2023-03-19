@@ -14,8 +14,10 @@
     "eslint-plugin-ft-flow": "^2.0.3",
     "eslint-plugin-react": "^7.32.2",
     "flow-bin": "^0.202.0",
+    "flow-typed": "^3.8.0",
     "hermes-eslint": "^0.10.0",
     "parcel": "^2.8.3",
+    "process": "^0.11.10",
     "react-dev-utils": "^12.0.1",
     "rimraf": "^4.4.0",
     "yamljs": "^0.3.0"
@@ -24,10 +26,13 @@
     "clean": "rimraf dist && rimraf .parcel-cache",
     "dev": "yarn clean && node scripts/dev.js",
     "start": "yarn clean && parcel watch src/manifest.json src/contentScript/app.js --host localhost --config @parcel/config-webextension",
-    "flow": "flow"
+    "flow": "flow",
+    "flow-typed-install": "yarn flow-typed install"
   },
   "dependencies": {
     "@types/webextension-polyfill": "^0.10.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "webextension-polyfill": "^0.10.0"
   },
   "babel": {
