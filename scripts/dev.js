@@ -9,13 +9,14 @@ const clearConsole = require('react-dev-utils/clearConsole');
 const isInteractive = process.stdout.isTTY;
 
 const bundler = new Parcel({
-  entries: paths.appManifest,
-  defaultConfig: '@parcel/config-webextension',
+  entries: [paths.appManifest, paths.contentScript],
+  config: '@parcel/config-webextension',
   serveOptions: {
-    port: 3000
+    port: 3000,
+    host: 'localhost'
   },
   hmrOptions: {
-    port: 3000
+    port: 3000,
   }
 });
 

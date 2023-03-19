@@ -1,6 +1,7 @@
 [ignore]
 .*/node_modules/.*
 <PROJECT_ROOT>/src/background/.*
+<PROJECT_ROOT>/src/contentScript/.*
 [include]
 
 [libs]
