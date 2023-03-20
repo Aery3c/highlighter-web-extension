@@ -27,7 +27,7 @@
     "dev": "yarn clean && node scripts/dev.js",
     "start": "yarn clean && parcel watch src/manifest.json src/contentScript/app.js --host localhost --config @parcel/config-webextension",
     "flow": "flow",
-    "flow-typed-install": "yarn flow-typed install"
+    "flow:fix": "yarn flow-typed install"
   },
   "dependencies": {
     "@types/webextension-polyfill": "^0.10.0",
