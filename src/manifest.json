@@ -13,7 +13,12 @@
     "type": "module"
   },
   "content_scripts": [{
-    "matches": ["*"],
-    "js": []
+    "matches": [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "js": [
+      "./contentScript/popperUI/index.js"
+    ]
   }]
 }

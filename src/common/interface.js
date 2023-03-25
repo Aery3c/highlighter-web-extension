@@ -3,6 +3,7 @@
 
 import browser from 'webextension-polyfill';
 import type { Tabs, Scripting } from 'webextension-polyfill';
+
 export function checkTabInjection (tab: Tabs.Tab, message: Object): Promise<any> {
   return sendMessageToTab(tab.id, message);
 }

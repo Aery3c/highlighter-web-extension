@@ -1,5 +1,7 @@
 [ignore]
 .*/node_modules/.*
+.*/node_modules/styled-components/.*
+.*/src/common/interface.js
 [include]
 
 [libs]

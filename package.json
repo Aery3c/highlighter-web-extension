@@ -25,14 +25,17 @@
   "scripts": {
     "clean": "rimraf dist && rimraf .parcel-cache",
     "dev": "yarn clean && node scripts/dev.js",
-    "start": "yarn clean && parcel watch src/manifest.json src/contentScript/app.js --host localhost --config @parcel/config-webextension",
+    "start": "yarn clean && parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
     "flow": "flow",
     "flow:fix": "yarn flow-typed install"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.7",
     "@types/webextension-polyfill": "^0.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-popper": "^2.3.0",
+    "styled-components": "^5.3.9",
     "webextension-polyfill": "^0.10.0"
   },
   "babel": {
