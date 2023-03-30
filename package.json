@@ -1,44 +1,29 @@
 {
   "name": "highlighter-web-extension",
   "version": "1.0.0",
-  "repository": "git@github.com:Aery3c/highlighter-web-extension.git",
-  "author": "Aery <294725131@qq.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.21.3",
-    "@babel/plugin-transform-flow-strip-types": "^7.21.0",
     "@parcel/config-webextension": "^2.8.3",
-    "@parcel/core": "^2.8.3",
-    "chalk": "4.1.2",
-    "eslint": "^8.36.0",
-    "eslint-plugin-ft-flow": "^2.0.3",
+    "@parcel/validator-eslint": "^2.8.3",
+    "@types/react": "^18.0.31",
+    "@types/react-dom": "^18.0.11",
+    "@types/webextension-polyfill": "^0.10.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "7.1.0",
     "eslint-plugin-react": "^7.32.2",
-    "flow-bin": "^0.202.0",
-    "flow-typed": "^3.8.0",
-    "hermes-eslint": "^0.10.0",
     "parcel": "^2.8.3",
     "process": "^0.11.10",
-    "react-dev-utils": "^12.0.1",
-    "rimraf": "^4.4.0",
-    "yamljs": "^0.3.0"
+    "rimraf": "^4.4.1"
   },
   "scripts": {
     "clean": "rimraf dist && rimraf .parcel-cache",
-    "dev": "yarn clean && node scripts/dev.js",
-    "start": "yarn clean && parcel watch src/manifest.json --host localhost --config @parcel/config-webextension",
-    "flow": "flow",
-    "flow:fix": "yarn flow-typed install"
+    "start": "yarn clean && parcel watch src/manifest.json --host localhost"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.7",
-    "@types/webextension-polyfill": "^0.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-popper": "^2.3.0",
-    "styled-components": "^5.3.9",
+    "typescript": "^5.0.2",
     "webextension-polyfill": "^0.10.0"
-  },
-  "babel": {
-    "extends": "./.config/babel.config"
   }
 }
