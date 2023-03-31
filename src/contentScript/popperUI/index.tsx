@@ -6,7 +6,7 @@ window.onload = function () {
   if (document.body) {
     const el = document.createElement('div');
     el.style.position = 'fixed';
-    // $FlowFixMe
+    el.className = 'highlighter-popperUi';
     const container = document.body.appendChild(el);
     const root = createRoot(container);
 
