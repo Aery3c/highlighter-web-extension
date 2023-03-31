@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.12.0",
     "@parcel/config-webextension": "^2.8.3",
     "@parcel/validator-eslint": "^2.8.3",
     "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",
+    "@types/remote-redux-devtools": "^0.5.5",
+    "@types/styled-components": "^5.1.26",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
@@ -14,16 +17,25 @@
     "eslint-plugin-react": "^7.32.2",
     "parcel": "^2.8.3",
     "process": "^0.11.10",
+    "querystring-es3": "^0.2.1",
+    "remote-redux-devtools": "^0.5.16",
     "rimraf": "^4.4.1"
   },
   "scripts": {
     "clean": "rimraf dist && rimraf .parcel-cache",
-    "start": "yarn clean && parcel watch src/manifest.json --host localhost"
+    "start": "yarn clean && yarn remotedev && parcel watch src/manifest.json --host localhost",
+    "remotedev": "remotedev --hostname=localhost --port=8000"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "styled-components": "^5.3.9",
     "typescript": "^5.0.2",
+    "webext-redux": "^2.1.9",
     "webextension-polyfill": "^0.10.0"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }
