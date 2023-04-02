@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../../common/components/Button';
 import styled, { ThemeProvider } from 'styled-components';
-import { themeMap } from '../../common/theme';
+import { theme } from '../../common/theme';
 import type { RootState } from '../../store/store';
 import type { ConnectedProps } from 'react-redux';
 
@@ -45,15 +45,15 @@ const Arrow = styled.div`
     transform: rotate(45deg);
   }
 `;
-const mapState = (state: RootState) => ({ theme: state.config.theme });
+const mapState = (state: RootState) => ({ themeType: state.config.theme });
 const connector = connect(mapState);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const PopperUI: React.FC<PropsFromRedux> = ({ theme }) => {
+const PopperUI: React.FC<PropsFromRedux> = ({ themeType }) => {
 
   return (
-    <ThemeProvider theme={themeMap[theme]}>
+    <ThemeProvider theme={theme[themeType]}>
       <PopperContainer>
         <Group>
           <Button>high</Button>
