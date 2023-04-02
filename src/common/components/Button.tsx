@@ -22,7 +22,8 @@ export const Button = styled.button`
   color: rgba(0, 0, 0, 0.88);
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 
-  background-color: #ffffff;
-  border-color: #d9d9d9;
+  background-color: ${props => props.theme.colorPrimaryBg};
+  border-color: ${props => props.theme.colorPrimaryBorder};
+  color: ${props => props.theme.colorPrimaryText};
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
 `;

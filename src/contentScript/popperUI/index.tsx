@@ -26,7 +26,7 @@ window.onload = async function () {
       </Provider>
     );
 
-    console.log('[PopperUI]: loaded !!!')
+    console.log('%c [PopperUI]: loaded !!!', `color: pink; font-weight: bold;`)
   } else {
     console.error('[PopperUI error]: not found body element');
   }

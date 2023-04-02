@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '../../common/components/Button';
 import styled, { ThemeProvider } from 'styled-components';
+import { themeMap } from '../../common/theme';
 import type { RootState } from '../../store/store';
 import type { ConnectedProps } from 'react-redux';
 
@@ -50,9 +51,9 @@ const connector = connect(mapState);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const PopperUI: React.FC<PropsFromRedux> = ({ theme }) => {
-  console.log(theme, 'theme');
+
   return (
-    <ThemeProvider theme={{}}>
+    <ThemeProvider theme={themeMap[theme]}>
       <PopperContainer>
         <Group>
           <Button>high</Button>
