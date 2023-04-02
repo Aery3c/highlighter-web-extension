@@ -1,34 +1,27 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 import { wrapStore } from 'webext-redux';
-import { composeWithDevTools } from 'remote-redux-devtools';
+import { devToolsEnhancer } from '@redux-devtools/remote';
+import { configReducer } from './reducers/config';
+import { PROXY_STORE_PORT_NAME } from '../common/constants';
 
-const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
-
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: {
-    value: 0
-  },
-  reducers: {
-    incremented: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1
-    },
-    decremented: state => {
-      state.value -= 1
-    }
-  }
-})
-
+let store;
 export function initializeStore () {
-  const store = configureStore({
-    reducer: counterSlice.reducer,
-    enhancers: (defaultEnhancers) => [...defaultEnhancers, composeEnhancers()],
+  store = configureStore({
+    reducer: {
+      config: configReducer
+    },
+    devTools: false,
+    enhancers: [devToolsEnhancer({
+      name: PROXY_STORE_PORT_NAME ,
+      realtime: true,
+      port: 8000,
+      suppressConnectErrors: false
+    })]
   });
 
-  wrapStore(store);
+  wrapStore(store, { portName: PROXY_STORE_PORT_NAME });
+
   return store;
 }
+
+export type RootState = ReturnType<typeof store.getState>;

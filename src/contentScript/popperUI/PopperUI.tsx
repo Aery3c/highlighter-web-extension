@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Button } from '../../components/Button';
+import { connect } from 'react-redux';
+import { Button } from '../../common/components/Button';
 import styled, { ThemeProvider } from 'styled-components';
+import type { RootState } from '../../store/store';
+import type { ConnectedProps } from 'react-redux';
 
 const PopperContainer = styled.div`
   position: absolute;
   z-index: 1000;
 `;
-
 const Group = styled.div`
   display: inline-flex;
   button {
@@ -21,7 +23,6 @@ const Group = styled.div`
     }
   }
 `
-
 const ArrowStyle = `
   position: inherit;
   z-index: -1;
@@ -43,14 +44,16 @@ const Arrow = styled.div`
     transform: rotate(45deg);
   }
 `;
+const mapState = (state: RootState) => ({ theme: state.config.theme });
+const connector = connect(mapState);
 
-interface Props {
-  callback: () => void;
-}
-const PopperUI: React.FC<Props> = ({ callback }) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const PopperUI: React.FC<PropsFromRedux> = ({ theme }) => {
+  console.log(theme, 'theme');
   return (
     <ThemeProvider theme={{}}>
-      <PopperContainer ref={callback}>
+      <PopperContainer>
         <Group>
           <Button>high</Button>
           <Button>note</Button>
@@ -60,5 +63,4 @@ const PopperUI: React.FC<Props> = ({ callback }) => {
     </ThemeProvider>
   )
 }
-
-export default PopperUI;
+export default connector(PopperUI);
