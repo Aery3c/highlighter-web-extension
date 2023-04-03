@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
-  
-  font-size: 14px;
-  height: 32px;
-  padding: 4px 15px;
-  
+export const ButtonBase = styled.button`
   border-radius: 6px;
   outline: none;
   position: relative;
@@ -21,9 +16,4 @@ export const Button = styled.button`
   line-height: 1.5714285714285714;
   color: rgba(0, 0, 0, 0.88);
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-
-  background-color: ${props => props.theme.colorPrimaryBg};
-  border-color: ${props => props.theme.colorPrimaryBorder};
-  color: ${props => props.theme.colorPrimaryText};
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
 `;
