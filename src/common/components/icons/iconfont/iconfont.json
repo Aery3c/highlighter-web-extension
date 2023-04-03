@@ -1,0 +1,23 @@
+{
+  "id": "3993408",
+  "name": "highlighter-web-extension",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17412915",
+      "name": "Translate",
+      "font_class": "Translate",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
+      "icon_id": "5634139",
+      "name": "highlighter",
+      "font_class": "highlighter",
+      "unicode": "f014",
+      "unicode_decimal": 61460
+    }
+  ]
+}
