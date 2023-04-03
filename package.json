@@ -26,10 +26,14 @@
     "redux-devtools": "redux-devtools --hostname=localhost --port=8000 --open"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@redux-devtools/remote": "^0.8.0",
     "@reduxjs/toolkit": "^1.9.3",
+    "@types/rc-tooltip": "^3.7.7",
+    "rc-tooltip": "3.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "styled-components": "^5.3.9",
     "typescript": "^5.0.2",
     "webext-redux": "^2.1.9",
