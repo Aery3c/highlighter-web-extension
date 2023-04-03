@@ -9,6 +9,20 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     colorBgContainer: string;
+    colorText: string;
     colorBorder: string;
+    colorBgSpotlight: string;
+    tooltipBg: string;
+    tooltipColor: string;
+    colorPrimaryBg: string;
+    colorPrimaryBgHover: string;
+    colorPrimaryBorder: string;
+    colorPrimaryBorderHover: string;
+    colorPrimaryHover: string;
+    colorPrimary: string;
+    colorPrimaryActive: string;
+    colorPrimaryTextHover: string;
+    colorPrimaryText: string;
+    colorPrimaryTextActive: string;
   }
 }

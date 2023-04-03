@@ -9,7 +9,8 @@ import type { RootState } from '../../store/store';
 import type { ConnectedProps } from 'react-redux';
 
 const PopperContainer = styled.div`
-  left: 90px;
+  top: 20%;
+  left: 20%;
   position: absolute;
   z-index: 1000;
 `;
