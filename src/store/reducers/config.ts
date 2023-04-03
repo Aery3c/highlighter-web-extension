@@ -1,11 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
+import type { ThemeColor, PrimaryColor } from '../../common/theme';
 
 interface State {
-  theme: 'dark' | 'light'
+  themeType: ThemeColor,
+  primaryColor: PrimaryColor
 }
 
 const initialState: State = {
-  theme: 'light'
+  themeType: 'light',
+  primaryColor: 'orange'
 };
 
 export const configReducer = createReducer(initialState, {});
