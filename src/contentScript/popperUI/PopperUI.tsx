@@ -4,7 +4,7 @@ import { ButtonBase } from '../../common/components/Button';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../../common/theme';
 import { GithubFilled, TagFilled } from '@ant-design/icons';
-import { HighlightButton } from './buttons';
+import { HighlightButton } from './components/Buttons';
 import type { RootState } from '../../store/store';
 import type { ConnectedProps } from 'react-redux';
 
@@ -14,7 +14,7 @@ const PopperContainer = styled.div`
   position: absolute;
   z-index: 1000;
 `;
-const Group = styled.div`
+const ButtonGroup = styled.div`
   display: inline-flex;
   button {
     :not(:last-child) {
@@ -74,7 +74,7 @@ const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
   return (
     <ThemeProvider theme={theme?.[themeType]?.[primaryColor]}>
       <PopperContainer>
-        <Group>
+        <ButtonGroup>
           <HighlightButton />
           <Button>
             <TagFilled style={{ fontSize: 16 }} />
@@ -82,7 +82,7 @@ const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
           <Button>
             <GithubFilled style={{ fontSize: 16 }} />
           </Button>
-        </Group>
+        </ButtonGroup>
         <Arrow />
       </PopperContainer>
     </ThemeProvider>

@@ -24,7 +24,7 @@ export const HighlightButton: React.FC<React.PropsWithChildren> = () => {
         <HighlightFilled style={{ fontSize: 16 }} />
       </Button>
       <Tooltip id="tooltip">
-        Thanks for using antd. Have a nice day!
+        Highlight the current selection!
       </Tooltip>
     </>
   )
