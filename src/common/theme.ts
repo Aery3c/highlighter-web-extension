@@ -1,27 +1,43 @@
 import { DefaultTheme } from 'styled-components';
-export const theme: Record<'dark' | 'light', DefaultTheme> = {
+
+export type ThemeColor = 'dark' | 'light';
+export type PrimaryColor = 'red' | 'volcano' | 'orange' | 'gold' | 'yellow' | 'lime' | 'green' | 'cyan' | 'blue' | 'geekblue' | 'purple' | 'magenta';
+
+export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme>>> = {
   light: {
-    // colorPrimaryBg: '#ffffff',
-    // colorPrimaryBgHover: light[2],
-    // colorPrimaryBorder: light[3],
-    // colorPrimaryBorderHover: light[4],
-    // colorPrimaryHover: light[5],
-    // colorPrimary: light[6],
-    // colorPrimaryActive: light[7],
-    // colorPrimaryTextHover: light[8],
-    // colorPrimaryText: light[9],
-    // colorPrimaryTextActive: light[10],
+    orange: {
+      colorBgContainer: '#ffffff',
+      colorText: 'rgba(0, 0, 0, 0.88)',
+      colorBorder: '#d9d9d9',
+      colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
+      colorPrimaryBg: '#fffbe6',
+      colorPrimaryBgHover: '#fff1b8',
+      colorPrimaryBorder: '#ffe58f',
+      colorPrimaryBorderHover: '#ffd666',
+      colorPrimaryHover: '#ffc53d',
+      colorPrimary: '#FAAD14',
+      colorPrimaryActive: '#d48806',
+      colorPrimaryTextHover: '#ffc53d',
+      colorPrimaryText: '#faad14',
+      colorPrimaryTextActive: '#d48806',
+    }
   },
-    dark: {
-    // colorPrimaryBg: dark[1],
-    // colorPrimaryBgHover: dark[2],
-    // colorPrimaryBorder: dark[3],
-    // colorPrimaryBorderHover: dark[4],
-    // colorPrimaryHover: dark[5],
-    // colorPrimary: dark[6],
-    // colorPrimaryActive: dark[7],
-    // colorPrimaryTextHover: dark[8],
-    // colorPrimaryText: dark[9],
-    // colorPrimaryTextActive: dark[10],
+  dark: {
+    orange: {
+      colorBgContainer: '#141414',
+      colorText: 'rgba(255, 255, 255, 0.85)',
+      colorBorder: '#424242',
+      colorBgSpotlight: '#424242',
+      colorPrimaryBg: '#2b2111',
+      colorPrimaryBgHover: '#443111',
+      colorPrimaryBorder: '#594214',
+      colorPrimaryBorderHover: '#7c5914',
+      colorPrimaryHover: '#e8b339',
+      colorPrimary: '#FAAD14',
+      colorPrimaryActive: '#aa7714',
+      colorPrimaryTextHover: '#e8b339',
+      colorPrimaryText: '#d89614',
+      colorPrimaryTextActive: '#aa7714'
+    }
   },
 }
