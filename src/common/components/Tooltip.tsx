@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useTheme } from 'styled-components'
-import { Tooltip as RcTooltip } from 'react-tooltip'
-import type { ITooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip as RcTooltip } from 'react-tooltip/dist/react-tooltip'
+import type { ITooltip } from 'react-tooltip/dist/react-tooltip';
+import 'react-tooltip/dist/react-tooltip.min.css'
 
 export const Tooltip: React.FC<React.PropsWithChildren<ITooltip>> = ({ children, ...props }) => {
   const theme = useTheme();
   return (
     <RcTooltip
       {...props}
-      style={{ 
-        maxWidth: 256, 
-        wordWrap: 'break-word', 
+      style={{
+        maxWidth: 256,
+        wordWrap: 'break-word',
         borderRadius: 6,
         backgroundColor: theme.tooltipBg,
         color: theme.tooltipColor,
