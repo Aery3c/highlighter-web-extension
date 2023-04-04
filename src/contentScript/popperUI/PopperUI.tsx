@@ -1,18 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { usePopper } from 'react-popper';
 import { ButtonBase } from '../../common/components/Button';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../../common/theme';
 import { GithubFilled, TagFilled } from '@ant-design/icons';
 import { HighlightButton } from './components/Buttons';
+import { animated, useSpring } from '@react-spring/web'
 import type { RootState } from '../../store/store';
 import type { ConnectedProps } from 'react-redux';
 
-const PopperContainer = styled.div`
-  top: 20%;
-  left: 20%;
+const { useState, useEffect } = React;
+
+const PopperContainer = styled(animated.div)`
   position: absolute;
-  z-index: 1000;
+  &[data-popper-reference-hidden^='true'] {
+    visibility: hidden;
+    pointer-events: none;
+  }
 `;
 const ButtonGroup = styled.div`
   display: inline-flex;
@@ -30,23 +35,29 @@ const ButtonGroup = styled.div`
 `
 
 const Arrow = styled.div`
-  visibility: hidden;
-  bottom: -4px;
-  left: calc(50% - 4px);
-  ::after {
-    visibility: visible;
-    content: '';
-    transform: rotate(45deg);
+  width: 8px;
+  height: 8px;
+  z-index: -1;
+  &[data-popper-placement^='top'] {
+    bottom: -4px;
+  }
+
+  &[data-popper-placement^='bottom'] {
+    top: -4px;
   }
   
-  &, &::after {
+  &::after {
+    box-sizing: border-box;
     position: inherit;
-    z-index: -1;
+    display: inline-block;
+    visibility: visible;
+    content: '';
     width: 8px;
     height: 8px;
     background-color: ${props => props.theme.colorBgContainer};
     border: 1px solid ${props => props.theme.colorBorder};
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+    transform: rotate(45deg);
   }
 `;
 
@@ -70,10 +81,67 @@ const connector = connect(mapState);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
+const virtualReference = {
+  getBoundingClientRect() {
+    return DOMRect.fromRect({ y: 0, x: 0 });
+  },
+};
+
 const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
+
+  const [popperElement, setPopperElement] = useState(null);
+  const { styles, attributes, update } = usePopper(
+    virtualReference,
+    popperElement,
+    {
+      placement: 'top',
+      modifiers: [
+        { name: 'eventListeners', options: { scroll: false } },
+        { name: 'offset', options: { offset: [0, 8] } },
+      ]
+    }
+  );
+
+  const [springs, api] = useSpring(() => ({
+    from: { opacity: 0 }
+  }));
+
+  const handleDocumentMouseUp = () => {
+    const sel = window.getSelection(), range = sel.getRangeAt(0);
+
+    if (!sel.isCollapsed && sel.toString() !== '') {
+      // api.start({ opacity: 1 });
+      virtualReference.getBoundingClientRect = () => range.getBoundingClientRect();
+      update().then(state => {
+        console.log(state.placement);
+        api.start({ opacity: 1 });
+      });
+    } else {
+      api.start({ opacity: 0 });
+      // virtualReference.getBoundingClientRect = () => DOMRect.fromRect({ x: 0, y: 0 });
+    }
+  }
+
+  const handleDocumentMouseDown = () => {
+    window.getSelection().removeAllRanges();
+  }
+
+  useEffect(() => {
+    document.addEventListener('mouseup', handleDocumentMouseUp);
+    document.addEventListener('mousedown', handleDocumentMouseDown);
+
+    return () => {
+      document.removeEventListener('mouseup', handleDocumentMouseUp);
+      document.addEventListener('mousedown', handleDocumentMouseDown);
+    }
+  }, [update, api]);
+
+
   return (
     <ThemeProvider theme={theme?.[themeType]?.[primaryColor]}>
-      <PopperContainer>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
+      <PopperContainer ref={setPopperElement} style={{ ...styles.popper, ...springs }} {...attributes.popper}>
         <ButtonGroup>
           <HighlightButton />
           <Button>
@@ -83,7 +151,7 @@ const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
             <GithubFilled style={{ fontSize: 16 }} />
           </Button>
         </ButtonGroup>
-        <Arrow />
+        <Arrow data-popper-arrow style={styles.arrow} {...attributes.popper}/>
       </PopperContainer>
     </ThemeProvider>
   )
