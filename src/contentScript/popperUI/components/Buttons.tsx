@@ -3,7 +3,6 @@ import { ButtonBase } from '../../../common/components/Button';
 import styled from 'styled-components';
 import { Tooltip } from '../../../common/components/Tooltip';
 import { HighlightFilled } from '../../../common/components/icons';
-import 'react-tooltip/dist/react-tooltip.css'
 
 const Button = styled(ButtonBase)`
   width: 32px;
@@ -15,6 +14,10 @@ const Button = styled(ButtonBase)`
   border-color: ${props => props.theme.colorBorder};
   color: ${props => props.theme.colorText};
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  &:hover {
+    color: ${props => props.theme.colorPrimaryTextHover};
+    border-color: ${props => props.theme.colorPrimaryBorderHover};
+  }
 `
 
 export const HighlightButton: React.FC<React.PropsWithChildren> = () => {
