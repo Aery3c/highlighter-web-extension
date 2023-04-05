@@ -6,18 +6,13 @@ import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../../common/theme';
 import { GithubFilled, TagFilled } from '@ant-design/icons';
 import { HighlightButton } from './components/Buttons';
-import { animated, useSpring } from '@react-spring/web'
 import type { RootState } from '../../store/store';
 import type { ConnectedProps } from 'react-redux';
 
 const { useState, useEffect } = React;
 
-const PopperContainer = styled(animated.div)`
+const PopperContainer = styled.div`
   position: absolute;
-  &[data-popper-reference-hidden^='true'] {
-    visibility: hidden;
-    pointer-events: none;
-  }
 `;
 const ButtonGroup = styled.div`
   display: inline-flex;
@@ -83,14 +78,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const virtualReference = {
   getBoundingClientRect() {
-    return DOMRect.fromRect({ y: 0, x: 0 });
+    return DOMRect.fromRect({ y: -200, x: 0 });
   },
 };
 
 const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
 
   const [popperElement, setPopperElement] = useState(null);
-  const { styles, attributes, update } = usePopper(
+  const { styles, attributes, update, state: popperState } = usePopper(
     virtualReference,
     popperElement,
     {
@@ -102,24 +97,15 @@ const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
     }
   );
 
-  const [springs, api] = useSpring(() => ({
-    from: { opacity: 0 }
-  }));
-
   const handleDocumentMouseUp = () => {
-    const sel = window.getSelection(), range = sel.getRangeAt(0);
-
-    if (!sel.isCollapsed && sel.toString() !== '') {
-      // api.start({ opacity: 1 });
+    const sel = window.getSelection();
+    if (sel && !sel.isCollapsed && sel.toString() !== '' && sel.rangeCount > 0) {
+      const range = sel.getRangeAt(0);
       virtualReference.getBoundingClientRect = () => range.getBoundingClientRect();
-      update().then(state => {
-        console.log(state.placement);
-        api.start({ opacity: 1 });
-      });
     } else {
-      api.start({ opacity: 0 });
-      // virtualReference.getBoundingClientRect = () => DOMRect.fromRect({ x: 0, y: 0 });
+      virtualReference.getBoundingClientRect = () => DOMRect.fromRect({ x: 0, y: -200 });
     }
+    update();
   }
 
   const handleDocumentMouseDown = () => {
@@ -134,14 +120,14 @@ const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
       document.removeEventListener('mouseup', handleDocumentMouseUp);
       document.addEventListener('mousedown', handleDocumentMouseDown);
     }
-  }, [update, api]);
+  }, [update, popperState]);
 
 
   return (
     <ThemeProvider theme={theme?.[themeType]?.[primaryColor]}>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
-      <PopperContainer ref={setPopperElement} style={{ ...styles.popper, ...springs }} {...attributes.popper}>
+      <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
         <ButtonGroup>
           <HighlightButton />
           <Button>
