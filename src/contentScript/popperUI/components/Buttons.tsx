@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CharacterRange } from 'highlighter';
 import { ButtonBase } from '../../../common/components/Button';
 import styled from 'styled-components';
 import { Tooltip } from '../../../common/components/Tooltip';
@@ -21,9 +22,14 @@ const Button = styled(ButtonBase)`
 `
 
 export const HighlightButton: React.FC<React.PropsWithChildren> = () => {
+
+  const handleClick = () => {
+    console.log(CharacterRange);
+  }
+
   return (
     <>
-      <Button data-tooltip-id="tooltip">
+      <Button data-tooltip-id="tooltip" onClick={handleClick}>
         <HighlightFilled style={{ fontSize: 16 }} />
       </Button>
       <Tooltip id="tooltip">

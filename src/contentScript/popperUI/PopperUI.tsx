@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { usePopper } from 'react-popper';
 import { ButtonBase } from '../../common/components/Button';
+import { HighlighterProvider } from '../../common/components/HighlighterProvider';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../../common/theme';
 import { GithubFilled, TagFilled } from '@ant-design/icons';
@@ -127,18 +128,20 @@ const PopperUI: React.FC<PropsFromRedux> = ({ themeType, primaryColor }) => {
     <ThemeProvider theme={theme?.[themeType]?.[primaryColor]}>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
-      <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
-        <ButtonGroup>
-          <HighlightButton />
-          <Button>
-            <TagFilled style={{ fontSize: 16 }} />
-          </Button>
-          <Button>
-            <GithubFilled style={{ fontSize: 16 }} />
-          </Button>
-        </ButtonGroup>
-        <Arrow data-popper-arrow style={styles.arrow} {...attributes.popper}/>
-      </PopperContainer>
+      <HighlighterProvider>
+        <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
+          <ButtonGroup>
+            <HighlightButton />
+            <Button>
+              <TagFilled style={{ fontSize: 16 }} />
+            </Button>
+            <Button>
+              <GithubFilled style={{ fontSize: 16 }} />
+            </Button>
+          </ButtonGroup>
+          <Arrow data-popper-arrow style={styles.arrow} {...attributes.popper}/>
+        </PopperContainer>
+      </HighlighterProvider>
     </ThemeProvider>
   )
 }

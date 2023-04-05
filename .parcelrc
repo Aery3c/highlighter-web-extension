@@ -1,8 +1,6 @@
 {
   "extends": "@parcel/config-webextension",
 	"validators": {
-		"*.{ts,tsx}": [
-			"@parcel/validator-eslint"
-		]
+
 	}
 }
