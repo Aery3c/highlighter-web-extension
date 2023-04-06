@@ -1,10 +1,28 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer, createAction } from '@reduxjs/toolkit';
 
-interface State {
+export interface Mark {
+  start: number;
+  end: number;
+}
+export interface TabState {
   [key: number]: {
-    characterRange: [number, number]
+    marks: Mark[]
   }
 }
 
-const initialState: State = {};
-export const tabsReducer = createReducer(initialState, {});
+export const addMark = createAction<{ tabId: number, mark: Mark }>('tabs/addMark');
+
+const initialState: TabState = {};
+export const tabsReducer = createReducer(initialState, builder => {
+  builder.addCase(addMark, (state, action) => {
+    const { tabId, mark } = action.payload;
+    if (state?.[tabId]?.marks) {
+      state[tabId].marks.push(mark);
+    } else {
+      // first
+      state[tabId] = {
+        marks: [mark]
+      }
+    }
+  });
+});

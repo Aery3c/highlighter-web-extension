@@ -1,12 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import type { ThemeColor, PrimaryColor } from '../../common/theme';
 
-interface State {
+export interface ConfigState {
   themeType: ThemeColor,
   primaryColor: PrimaryColor
 }
 
-const initialState: State = {
+const initialState: ConfigState = {
   themeType: 'light',
   primaryColor: 'orange'
 };

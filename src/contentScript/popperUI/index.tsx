@@ -4,11 +4,14 @@ import { createRoot } from "react-dom/client";
 import { Provider } from 'react-redux';
 import { Store } from 'webext-redux';
 import { PROXY_STORE_PORT_NAME } from '../../common/constants';
+import TabIdProvider from '../../common/components/TabIdProvider';
 import PopperUI from './PopperUI';
 
 window.onload = async function () {
   if (document.body) {
     const info: browser.Management.ExtensionInfo = await browser.runtime.sendMessage({ action: 'getExtensionInfo' });
+    const tabId: number = await browser.runtime.sendMessage({ action: 'getTabId' });
+
     const proxyStore = new Store({
       portName: PROXY_STORE_PORT_NAME,
       extensionId: info.id
@@ -22,7 +25,9 @@ window.onload = async function () {
 
     root.render(
       <Provider store={proxyStore}>
-        <PopperUI />
+        <TabIdProvider tabId={tabId}>
+          <PopperUI />
+        </TabIdProvider>
       </Provider>
     );
 
