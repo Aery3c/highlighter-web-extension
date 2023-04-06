@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Highlighter } from 'highlighter';
-
+import { useTheme } from 'styled-components';
 export const HighlighterContext = React.createContext<Highlighter | null>(null);
 
 export const useHighlighter = () => {
@@ -8,13 +8,15 @@ export const useHighlighter = () => {
 }
 export const HighlighterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
 
-  if (process.env.NODE_ENV === 'development') {
-    console.warn('[HighlighterProvider]: re-renders!');
-  }
+  const theme = useTheme();
   /**
    * @see https://react.dev/reference/react/useRef#parameters
    */
-  const ref = React.useRef(new Highlighter());
+  const ref = React.useRef(new Highlighter({ className: theme.className }));
+
+  React.useEffect(() => {
+    // ref.current.highlights.push(111)
+  }, [theme]);
 
   return (
     <HighlighterContext.Provider value={ref.current}>

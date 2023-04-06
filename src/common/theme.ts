@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
 
 export type ThemeColor = 'dark' | 'light';
 export type PrimaryColor = 'red' | 'volcano' | 'orange' | 'gold' | 'yellow' | 'lime' | 'green' | 'cyan' | 'blue' | 'geekblue' | 'purple' | 'magenta';
@@ -22,6 +22,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#ffc53d',
       colorPrimaryText: '#faad14',
       colorPrimaryTextActive: '#d48806',
+      className: 'highlighter-orange-light'
     }
   },
   dark: {
@@ -41,7 +42,8 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryActive: '#aa7714',
       colorPrimaryTextHover: '#e8b339',
       colorPrimaryText: '#d89614',
-      colorPrimaryTextActive: '#aa7714'
+      colorPrimaryTextActive: '#aa7714',
+      className: 'highlighter-orange-dark'
     }
   },
 }

@@ -5,7 +5,7 @@ import { findIndex } from 'lodash';
 import { ButtonBase } from '../../../common/components/Button';
 import { Tooltip } from '../../../common/components/Tooltip';
 import { useTabId } from '../../../common/components/TabIdProvider';
-// import { useHighlighter } from '../../../common/components/HighlighterProvider';
+import { useHighlighter } from '../../../common/components/HighlighterProvider';
 import { HighlightFilled } from '../../../common/components/icons';
 import { GithubFilled, TagFilled } from '@ant-design/icons';
 import { connect } from 'react-redux';
@@ -59,9 +59,10 @@ function union (oldMark: Mark, characterRange: CharacterRange): boolean {
 const PopperInnerWithHighlighter: React.FC<Props> = ({ tabs, addMark, clickAfterCallback }) => {
   const tabId = useTabId();
   const marks: Mark[] = tabs?.[tabId]?.marks || [];
-
+  const highlighter = useHighlighter();
   const handleClickWidthHighlighter = () => {
     try {
+      console.log(highlighter, 'highlighter');
       const range = window.getSelection().getRangeAt(0);
       const characterRange = CharacterRange.fromRange(range, document.body);
       const mark = { start: characterRange.start, end: characterRange.end };

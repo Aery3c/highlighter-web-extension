@@ -22,8 +22,9 @@ const PopperContainer = styled.div`
 `;
 
 const GlobalStyle = createGlobalStyle`
-  .highlight {
-    background-color: yellow;
+  .${theme.light.orange.className} {
+    background-color: ${theme.light.orange.colorPrimary};
+    color: ${theme.light.orange.colorPrimaryText};
   }
 `;
 

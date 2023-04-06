@@ -5,9 +5,9 @@ import { configReducer } from './reducers/config';
 import { tabsReducer } from './reducers/tabs';
 import { PROXY_STORE_PORT_NAME } from '../common/constants';
 
-let store;
+let storeType;
 export function initializeStore () {
-  store = configureStore({
+  const store = configureStore({
     reducer: {
       config: configReducer,
       tabs: tabsReducer
@@ -23,7 +23,9 @@ export function initializeStore () {
 
   wrapStore(store, { portName: PROXY_STORE_PORT_NAME });
 
+  storeType = store;
+
   return store;
 }
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof storeType.getState>;

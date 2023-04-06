@@ -3,8 +3,8 @@ import { useTheme } from 'styled-components'
 import { Tooltip as RcTooltip } from 'react-tooltip/dist/react-tooltip'
 import type { ITooltip } from 'react-tooltip/dist/react-tooltip';
 import 'react-tooltip/dist/react-tooltip.min.css'
-
 export const Tooltip: React.FC<React.PropsWithChildren<ITooltip>> = ({ children, ...props }) => {
+
   const theme = useTheme();
   return (
     <RcTooltip
