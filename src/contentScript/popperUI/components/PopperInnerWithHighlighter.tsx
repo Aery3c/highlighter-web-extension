@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { CharacterRange } from 'highlighter';
 import { findIndex } from 'lodash';
 import { ButtonBase } from '../../../common/components/Button';
@@ -60,13 +60,13 @@ const PopperInnerWithHighlighter: React.FC<Props> = ({ tabs, addMark, clickAfter
   const tabId = useTabId();
   const marks: Mark[] = tabs?.[tabId]?.marks || [];
   const highlighter = useHighlighter();
+  const theme = useTheme();
   const handleClickWidthHighlighter = () => {
     try {
-      console.log(highlighter, 'highlighter');
       const range = window.getSelection().getRangeAt(0);
       const characterRange = CharacterRange.fromRange(range, document.body);
-      const mark = { start: characterRange.start, end: characterRange.end };
-      if (findIndex( marks,m => union(m, characterRange)) === -1 ) {
+      const mark = { start: characterRange.start, end: characterRange.end, className: theme.className };
+      if (findIndex( marks,m => union(m, characterRange) && m.className === mark.className ) === -1 ) {
         /**
          * Add the union if it does not exist
          */
@@ -77,6 +77,10 @@ const PopperInnerWithHighlighter: React.FC<Props> = ({ tabs, addMark, clickAfter
       console.log(error);
     }
   }
+
+  // React.useEffect(() => {
+  //
+  // }, [marks]);
 
   return (
     <ButtonGroup>

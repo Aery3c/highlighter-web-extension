@@ -15,7 +15,7 @@ export const HighlighterProvider: React.FC<React.PropsWithChildren> = ({ childre
   const ref = React.useRef(new Highlighter({ className: theme.className }));
 
   React.useEffect(() => {
-    // ref.current.highlights.push(111)
+    ref.current.setOptions({ ...ref.current.options, className: theme.className });
   }, [theme]);
 
   return (

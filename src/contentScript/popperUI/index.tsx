@@ -6,6 +6,7 @@ import { Store } from 'webext-redux';
 import { PROXY_STORE_PORT_NAME } from '../../common/constants';
 import TabIdProvider from '../../common/components/TabIdProvider';
 import PopperUI from './PopperUI';
+import type {} from '../../styled';
 
 window.onload = async function () {
   if (document.body) {

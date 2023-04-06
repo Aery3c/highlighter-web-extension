@@ -23,6 +23,25 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryText: '#faad14',
       colorPrimaryTextActive: '#d48806',
       className: 'highlighter-orange-light'
+    },
+    blue: {
+      colorBgContainer: '#ffffff',
+      colorText: 'rgba(0, 0, 0, 0.88)',
+      colorBorder: '#d9d9d9',
+      colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
+      tooltipBg: '#000000',
+      tooltipColor: '#ffffff',
+      colorPrimaryBg: '#e6f4ff',
+      colorPrimaryBgHover: '#bae0ff',
+      colorPrimaryBorder: '#91caff',
+      colorPrimaryBorderHover: '#69b1ff',
+      colorPrimaryHover: '#4096ff',
+      colorPrimary: '#1677ff',
+      colorPrimaryActive: '#0958d9',
+      colorPrimaryTextHover: '#4096ff',
+      colorPrimaryText: '#1677ff',
+      colorPrimaryTextActive: '#0958d9',
+      className: 'highlighter-blue-light'
     }
   },
   dark: {
@@ -44,6 +63,25 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryText: '#d89614',
       colorPrimaryTextActive: '#aa7714',
       className: 'highlighter-orange-dark'
+    },
+    blue: {
+      colorBgContainer: '#ffffff',
+      colorText: 'rgba(0, 0, 0, 0.88)',
+      colorBorder: '#d9d9d9',
+      colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
+      tooltipBg: '#000000',
+      tooltipColor: '#ffffff',
+      colorPrimaryBg: '#111a2c',
+      colorPrimaryBgHover: '#112545',
+      colorPrimaryBorder: '#15325b',
+      colorPrimaryBorderHover: '#15417e',
+      colorPrimaryHover: '#3c89e8',
+      colorPrimary: '#1677ff',
+      colorPrimaryActive: '#1554ad',
+      colorPrimaryTextHover: '#3c89e8',
+      colorPrimaryText: '#1668dc',
+      colorPrimaryTextActive: '#1554ad',
+      className: 'highlighter-blue-dark'
     }
   },
 }

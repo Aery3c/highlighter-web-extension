@@ -8,7 +8,7 @@ export interface ConfigState {
 
 const initialState: ConfigState = {
   themeType: 'light',
-  primaryColor: 'orange'
+  primaryColor: 'blue'
 };
 
 export const updatePrimaryColor = createAction<PrimaryColor>('config/updatePrimaryColor');

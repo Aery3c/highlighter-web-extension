@@ -3,6 +3,7 @@ import { createReducer, createAction } from '@reduxjs/toolkit';
 export interface Mark {
   start: number;
   end: number;
+  className: string;
 }
 export interface TabState {
   [key: number]: {
