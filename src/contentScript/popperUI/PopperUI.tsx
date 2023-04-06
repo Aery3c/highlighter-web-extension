@@ -7,6 +7,7 @@ import { theme } from '../../common/theme';
 import PopperInnerWithHighlighter from './components/PopperInnerWithHighlighter';
 import type { ConnectedProps } from 'react-redux';
 import type { RootState } from '../../store/store';
+import { createGlobalStyle } from 'styled-components';
 
 const { useState, useEffect } = React;
 
@@ -17,6 +18,12 @@ const PopperContainer = styled.div`
   &[data-show] {
     visibility: visible;
     pointer-events: auto;
+  }
+`;
+
+const GlobalStyle = createGlobalStyle`
+  .highlight {
+    background-color: yellow;
   }
 `;
 
@@ -54,9 +61,13 @@ const PopperUI: React.FC<PropsFromRedux> = ({ config }) => {
       update().then(state => state.elements.popper.setAttribute('data-show', ''))
     } else {
       // virtualReference.getBoundingClientRect = () => DOMRect.fromRect({ x: 0, y: -200 });
-      popperState.elements.popper.removeAttribute('data-show');
+      hidePopper();
     }
 
+  }
+
+  const hidePopper = () => {
+    popperState.elements.popper.removeAttribute('data-show');
   }
 
   useEffect(() => {
@@ -68,9 +79,10 @@ const PopperUI: React.FC<PropsFromRedux> = ({ config }) => {
 
   return (
     <ThemeProvider theme={theme?.[themeType]?.[primaryColor]}>
+      <GlobalStyle />
       <HighlighterProvider>
         <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
-          <PopperInnerWithHighlighter />
+          <PopperInnerWithHighlighter clickAfterCallback={hidePopper}/>
         </PopperContainer>
       </HighlighterProvider>
     </ThemeProvider>

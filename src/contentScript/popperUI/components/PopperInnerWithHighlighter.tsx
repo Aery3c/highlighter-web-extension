@@ -1,14 +1,18 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { CharacterRange } from 'highlighter';
+import { findIndex } from 'lodash';
 import { ButtonBase } from '../../../common/components/Button';
 import { Tooltip } from '../../../common/components/Tooltip';
 import { useTabId } from '../../../common/components/TabIdProvider';
+// import { useHighlighter } from '../../../common/components/HighlighterProvider';
 import { HighlightFilled } from '../../../common/components/icons';
 import { GithubFilled, TagFilled } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../../../store/connect';
 import type { ConnectedProps } from 'react-redux';
+import type { RootState } from '../../../store/store';
+import type { Mark } from '../../../store/reducers/tabs';
 
 const ButtonGroup = styled.div`
   display: inline-flex;
@@ -41,18 +45,33 @@ const Button = styled(ButtonBase)`
   }
 `
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect((state: RootState) => ({ tabs: state.tabs }), mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
+interface Props extends PropsFromRedux {
+  clickAfterCallback?: () => void
+}
 
-const PopperInnerWithHighlighter: React.FC<PropsFromRedux> = ({ addMark }) => {
+function union (oldMark: Mark, characterRange: CharacterRange): boolean {
+  return !!characterRange.union(new CharacterRange(oldMark.start, oldMark.end, document.body));
+}
+
+const PopperInnerWithHighlighter: React.FC<Props> = ({ tabs, addMark, clickAfterCallback }) => {
   const tabId = useTabId();
+  const marks: Mark[] = tabs?.[tabId]?.marks || [];
+
   const handleClickWidthHighlighter = () => {
     try {
       const range = window.getSelection().getRangeAt(0);
       const characterRange = CharacterRange.fromRange(range, document.body);
       const mark = { start: characterRange.start, end: characterRange.end };
-      addMark({ tabId, mark });
+      if (findIndex( marks,m => union(m, characterRange)) === -1 ) {
+        /**
+         * Add the union if it does not exist
+         */
+        addMark({ tabId, mark });
+      }
+      clickAfterCallback?.();
     } catch (error) {
       console.log(error);
     }
