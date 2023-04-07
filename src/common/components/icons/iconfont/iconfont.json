@@ -6,11 +6,25 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "17412915",
-      "name": "Translate",
-      "font_class": "Translate",
-      "unicode": "e707",
-      "unicode_decimal": 59143
+      "icon_id": "4936637",
+      "name": "delete-fill",
+      "font_class": "delete-fill",
+      "unicode": "e863",
+      "unicode_decimal": 59491
+    },
+    {
+      "icon_id": "11981594",
+      "name": "folder_labeled",
+      "font_class": "folder_labeled",
+      "unicode": "e958",
+      "unicode_decimal": 59736
+    },
+    {
+      "icon_id": "836610",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e718",
+      "unicode_decimal": 59160
     },
     {
       "icon_id": "5634139",

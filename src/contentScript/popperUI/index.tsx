@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { Store } from 'webext-redux';
 import { PROXY_STORE_PORT_NAME } from '../../common/constants';
 import TabIdProvider from '../../common/components/TabIdProvider';
+import { HighlighterProvider } from '../../common/components/HighlighterProvider';
+import ThemeProvider from '../../common/components/ThemeProvider';
 import PopperUI from './PopperUI';
 import type {} from '../../styled';
 
@@ -27,7 +29,11 @@ window.onload = async function () {
     root.render(
       <Provider store={proxyStore}>
         <TabIdProvider tabId={tabId}>
-          <PopperUI />
+          <ThemeProvider>
+            <HighlighterProvider>
+              <PopperUI />
+            </HighlighterProvider>
+          </ThemeProvider>
         </TabIdProvider>
       </Provider>
     );

@@ -1,13 +1,11 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { usePopper } from 'react-popper';
-import { HighlighterProvider } from '../../common/components/HighlighterProvider';
-import styled, { ThemeProvider } from 'styled-components';
-import { theme } from '../../common/theme';
+// import { useHighlighter } from '../../common/components/HighlighterProvider';
+import styled from 'styled-components';
 import PopperInnerWithHighlighter from './components/PopperInnerWithHighlighter';
-import type { ConnectedProps } from 'react-redux';
-import type { RootState } from '../../store/store';
-import { createGlobalStyle } from 'styled-components';
+// import PopperInnerWidthRemove from './components/PopperInnerWidthRemove';
+import PopperUIGlobalStyle from './components/PopperUIGlobalStyle';
+// import type Highlight from 'highlighter/lib/utils/highlight';
 
 const { useState, useEffect } = React;
 
@@ -15,22 +13,11 @@ const PopperContainer = styled.div`
   position: absolute;
   visibility: hidden;
   pointer-events: none;
-  &[data-show] {
+  &[popper-show] {
     visibility: visible;
     pointer-events: auto;
   }
 `;
-
-const GlobalStyle = createGlobalStyle`
-  .${theme.light.orange.className} {
-    background-color: ${theme.light.orange.colorPrimary};
-    color: ${theme.light.orange.colorPrimaryText};
-  }
-`;
-
-const connector = connect((state: RootState) => ({ config: state.config }));
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const virtualReference = {
   getBoundingClientRect() {
@@ -38,11 +25,11 @@ const virtualReference = {
   },
 };
 
-const PopperUI: React.FC<PropsFromRedux> = ({ config }) => {
-  const { themeType, primaryColor } = config;
-
+const PopperUI: React.FC = () => {
+  // const highlighter = useHighlighter();
+  // const [isDelete, setIsDelete] = useState(false);
   const [popperElement, setPopperElement] = useState(null);
-  const { styles, attributes, update, state: popperState } = usePopper(
+  const { styles, attributes, update } = usePopper(
     virtualReference,
     popperElement,
     {
@@ -59,34 +46,44 @@ const PopperUI: React.FC<PropsFromRedux> = ({ config }) => {
     if (sel && !sel.isCollapsed && sel.toString() !== '' && sel.rangeCount > 0) {
       const range = sel.getRangeAt(0);
       virtualReference.getBoundingClientRect = () => range.getBoundingClientRect();
-      update().then(state => state.elements.popper.setAttribute('data-show', ''))
+      update().then(state => state.elements.popper.setAttribute('popper-show', ''));
     } else {
-      // virtualReference.getBoundingClientRect = () => DOMRect.fromRect({ x: 0, y: -200 });
       hidePopper();
     }
 
   }
 
   const hidePopper = () => {
-    popperState.elements.popper.removeAttribute('data-show');
+    virtualReference.getBoundingClientRect = () => DOMRect.fromRect({ x: 0, y: -200 });
+    update().then(state => state.elements.popper.removeAttribute('popper-show'));
   }
+
+  // const handleMarkClick = (highlight: Highlight) => {
+  //   setIsDelete(true);
+  //   const range = highlight.characterRange.toRange();
+  //   virtualReference.getBoundingClientRect = () => range.getBoundingClientRect();
+  //   update().then((state) => {
+  //     state.elements.popper.setAttribute('popper-show', '')
+  //   });
+  // }
 
   useEffect(() => {
     document.addEventListener('mouseup', handleDocumentMouseUp);
+    // highlighter.on('click', handleMarkClick);
     return () => {
       document.removeEventListener('mouseup', handleDocumentMouseUp);
+      // highlighter.off('click', handleMarkClick);
     }
-  }, [update, popperState]);
+  }, [update]);
 
   return (
-    <ThemeProvider theme={theme?.[themeType]?.[primaryColor]}>
-      <GlobalStyle />
-      <HighlighterProvider>
-        <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
-          <PopperInnerWithHighlighter clickAfterCallback={hidePopper}/>
-        </PopperContainer>
-      </HighlighterProvider>
-    </ThemeProvider>
+    <>
+      <PopperUIGlobalStyle />
+      <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
+        {/* @see https://react.dev/learn/preserving-and-resetting-state#option-1-rendering-a-component-in-different-positions */}
+        <PopperInnerWithHighlighter clickAfterCallback={hidePopper} />
+      </PopperContainer>
+    </>
   )
 }
-export default connector(PopperUI);
+export default PopperUI;

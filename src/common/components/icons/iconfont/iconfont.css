@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3993408 */
-  src: url('iconfont.woff2?t=1680509266148') format('woff2'),
-       url('iconfont.woff?t=1680509266148') format('woff'),
-       url('iconfont.ttf?t=1680509266148') format('truetype'),
-       url('iconfont.svg?t=1680509266148#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1680854029051') format('woff2'),
+       url('iconfont.woff?t=1680854029051') format('woff'),
+       url('iconfont.ttf?t=1680854029051') format('truetype'),
+       url('iconfont.svg?t=1680854029051#iconfont') format('svg');
 }
 
 .iconfont {
@@ -14,8 +14,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-Translate:before {
-  content: "\e707";
+.icon-delete-fill:before {
+  content: "\e863";
+}
+
+.icon-folder_labeled:before {
+  content: "\e958";
+}
+
+.icon-github:before {
+  content: "\e718";
 }
 
 .icon-highlighter:before {
