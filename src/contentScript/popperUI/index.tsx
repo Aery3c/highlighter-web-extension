@@ -3,6 +3,7 @@ import * as browser from 'webextension-polyfill';
 import { createRoot } from "react-dom/client";
 import { Provider } from 'react-redux';
 import { Store } from 'webext-redux';
+import { updatePopperState } from '../../store/actions';
 import { PROXY_STORE_PORT_NAME } from '../../common/constants';
 import TabIdProvider from '../../common/components/TabIdProvider';
 import { HighlighterProvider } from '../../common/components/HighlighterProvider';
@@ -46,7 +47,7 @@ window.onload = async function () {
             <HighlighterProvider>
               <PopperUI onMount={() => {
                 console.log('%c [PopperUI]: Mounted !!!', `color: pink; font-weight: bold;`);
-                sendMessageToBackground<void>({ action: 'updateToolBarIcon', active: true })
+                sendMessageToBackground<void>({ action: 'popperMount' })
               }}/>
             </HighlighterProvider>
           </ThemeProvider>

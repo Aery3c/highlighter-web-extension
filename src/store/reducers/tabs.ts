@@ -1,4 +1,5 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
+import type { Tabs } from 'webextension-polyfill';
 
 export interface Mark {
   start: number;
@@ -6,30 +7,36 @@ export interface Mark {
   className: string;
   text: string;
 }
+
+export interface PopperState {
+  isMount: boolean;
+}
+
 export interface TabState {
-  [key: number]: {
-    marks: Mark[]
+  [key: number]: Tabs.Tab & {
+    marks?: Mark[],
+    popperState?: PopperState;
   }
 }
 
-interface Params {
-  tabId: number;
-  mark: Mark ;
-}
+export const addMark = createAction<{ tabId: number; mark: Mark;}>('tabs/addMark');
+export const removeMark = createAction<{ tabId: number; mark: Mark;}>('tabs/removeMark');
+export const updatePopperState = createAction<{ tabId: number; popperState: PopperState}>('tabs/setPopperMount');
+export const removeTab = createAction<number>('tabs/removeTab');
+export const addTab = createAction<Tabs.Tab>('tabs/addTab');
+export const updateTab = createAction<Tabs.Tab>('tabs/updateTab');
 
-export const addMark = createAction<Params>('tabs/addMark');
-export const removeMark = createAction<Params>('tabs/removeMark');
 const initialState: TabState = {};
 export const tabsReducer = createReducer(initialState, builder => {
   builder.addCase(addMark, (state, action) => {
     const { tabId, mark } = action.payload;
-    if (state?.[tabId]?.marks) {
+    const marks = state[tabId].marks;
+    if (marks) {
+      // add
       state[tabId].marks.push(mark);
     } else {
-      // first
-      state[tabId] = {
-        marks: [mark]
-      }
+      // create
+      state[tabId].marks = [mark];
     }
   });
   builder.addCase(removeMark, (state, action) => {
@@ -40,6 +47,31 @@ export const tabsReducer = createReducer(initialState, builder => {
       if (isEqual(mark, markWithRemoved)) {
         marks.splice(i++, 1);
       }
+    }
+  });
+  builder.addCase(updatePopperState, (state, action) => {
+    const { tabId, popperState } = action.payload;
+    const currentTab = state[tabId];
+    currentTab.popperState = {
+      ...currentTab.popperState,
+      ...popperState,
+    }
+  });
+  builder.addCase(addTab, (state, action) => {
+    state[action.payload.id] = {
+      ...action.payload,
+      marks: [],
+      popperState: { isMount: false }
+    }
+  });
+  builder.addCase(removeTab, (state, action) => {
+    delete state[action.payload];
+  });
+  builder.addCase(updateTab, (state, action) => {
+    const tabId = action.payload.id;
+    state[tabId] = {
+      ...state[tabId],
+      ...action.payload,
     }
   });
 });

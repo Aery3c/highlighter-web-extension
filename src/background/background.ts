@@ -1,9 +1,17 @@
 import * as browser from 'webextension-polyfill';
 import { initializeStore } from  '../store/store';
-import { toggleTheme } from '../store/actions';
+import { toggleTheme, addTab, removeTab, updatePopperState, updateTab } from '../store/actions';
 
 const store = initializeStore();
-browser.action.onClicked.addListener(function () {
+
+// tabsObserver(store, (tabs) => {
+//   forOwn(tabs, (tab, tabId) => {
+//     if (tab.popperState.isMount) {
+//       updateToolbarIcon(Number(tabId), true);
+//     }
+//   });
+// });
+browser.action.onClicked.addListener(function (tab, info) {
   store.dispatch(toggleTheme());
 });
 browser.runtime.onMessage.addListener(async function (request, sender) {
@@ -14,13 +22,28 @@ browser.runtime.onMessage.addListener(async function (request, sender) {
     case 'getTabId': {
       return sender.tab.id;
     }
-    case 'updateToolBarIcon': {
-      updateToolbarIcon(sender.tab.id, request.active);
+    case 'popperMount': {
+      const tabId = sender.tab.id;
+      updateToolbarIcon(tabId, true);
+      store.dispatch(updatePopperState({ tabId, popperState: { isMount: true } }))
     }
   }
 
 });
 
+browser.tabs.onRemoved.addListener(function (tabId) {
+  store.dispatch(removeTab(tabId));
+});
+
+browser.tabs.onCreated.addListener(function (tab) {
+  store.dispatch(addTab(tab));
+})
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+browser.tabs.onUpdated.addListener(function (_, _, tab) {
+  store.dispatch(updateTab(tab));
+});
 
 function updateToolbarIcon (tabId: number, active: boolean): void {
   active

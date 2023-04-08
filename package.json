@@ -24,6 +24,7 @@
   "scripts": {
     "clean": "rimraf dist && rimraf .parcel-cache",
     "start": "yarn clean && yarn redux-devtools | parcel watch src/manifest.json --host localhost",
+    "build": "yarn clean && parcel build src/manifest.json",
     "redux-devtools": "redux-devtools --hostname=localhost --port=8000 --open"
   },
   "dependencies": {
