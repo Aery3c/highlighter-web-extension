@@ -37,6 +37,8 @@ const OutsideAlerter: React.FC<React.PropsWithChildren<{ outsideClick: () => voi
   const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       if (ref.current && !ref.current.contains(event.target)) {
         props.outsideClick();
       }
@@ -58,12 +60,13 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hi
   const [isDelete, setIsDelete] = React.useState<boolean>(false);
 
   const handleClickMarkElement = async (highlight: Highlight) => {
+    if (highlight === null) return;
     setIsDelete(true);
     const { characterRange } = highlight;
     showPopper(characterRange.toRange());
 
     await awaitUserClickDelete();
-
+    // highlighter.off('click', handleClickMarkElement);
     highlighter.removeHighlight(highlight);
     const mark = {
       start: characterRange.start,
@@ -86,7 +89,7 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hi
 
   const handleClickHighlighter = () => {
     try {
-      const range = window.getSelection().getRangeAt(0);
+      const sel = window.getSelection(), range = sel.getRangeAt(0);
 
       const characterRange = CharacterRange.fromRange(range, document.body);
       const mark = {
@@ -100,7 +103,7 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hi
          * Add the union if it does not exist
          */
         addMark({ tabId, mark });
-        highlighter._useCharacterRanges([characterRange]);
+        highlighter.useSelection({ selection: sel });
       }
       hidePopper();
     } catch (error) {
@@ -122,7 +125,7 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hi
   }
 
   return (
-    <ButtonGroup onMouseUp={stopPropagation} >
+    <ButtonGroup onMouseUp={stopPropagation} onMouseDown={stopPropagation}>
       {
         !isDelete
           ?

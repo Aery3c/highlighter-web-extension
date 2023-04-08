@@ -5,6 +5,25 @@ export type PrimaryColor = 'red' | 'volcano' | 'orange' | 'gold' | 'yellow' | 'l
 
 export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme>>> = {
   light: {
+    gold: {
+      colorBgContainer: '#ffffff',
+      colorText: 'rgba(0, 0, 0, 0.88)',
+      colorBorder: '#d9d9d9',
+      colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
+      tooltipBg: '#000000',
+      tooltipColor: '#ffffff',
+      colorPrimaryBg: '#fffcf0',
+      colorPrimaryBgHover: '#fffcf0',
+      colorPrimaryBorder: '#fffbf0',
+      colorPrimaryBorderHover: '#fff3d6',
+      colorPrimaryHover: '#ffe5ad',
+      colorPrimary: '#f3ca7e',
+      colorPrimaryActive: '#cca360',
+      colorPrimaryTextHover: '#ffe5ad',
+      colorPrimaryText: '#f3ca7e',
+      colorPrimaryTextActive: '#cca360',
+      className: 'highlighter-gold-light'
+    },
     orange: {
       colorBgContainer: '#ffffff',
       colorText: 'rgba(0, 0, 0, 0.88)',
@@ -45,6 +64,25 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
     }
   },
   dark: {
+    gold: {
+      colorBgContainer: '#ffffff',
+      colorText: 'rgba(0, 0, 0, 0.88)',
+      colorBorder: '#d9d9d9',
+      colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
+      tooltipBg: '#000000',
+      tooltipColor: '#ffffff',
+      colorPrimaryBg: '#2a241c',
+      colorPrimaryBgHover: '#423827',
+      colorPrimaryBorder: '#574b34',
+      colorPrimaryBorderHover: '#786644',
+      colorPrimaryHover: '#e8d09e',
+      colorPrimary: '#f3ca7e',
+      colorPrimaryActive: '#a58a59',
+      colorPrimaryTextHover: '#e8d09e',
+      colorPrimaryText: '#d2af6e',
+      colorPrimaryTextActive: '#a58a59',
+      className: 'highlighter-dark-light'
+    },
     orange: {
       colorBgContainer: '#141414',
       colorText: 'rgba(255, 255, 255, 0.85)',

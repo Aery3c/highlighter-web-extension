@@ -56,10 +56,16 @@ const PopperUI: React.FC = () => {
     update().then(state => state.elements.popper.removeAttribute('popper-show'));
   }
 
+  const handleDocumentMouseDown = () => {
+    window.getSelection().removeAllRanges();
+  }
+
   useEffect(() => {
     document.addEventListener('mouseup', handleDocumentMouseUp);
+    document.addEventListener('mousedown', handleDocumentMouseDown);
     return () => {
       document.removeEventListener('mouseup', handleDocumentMouseUp);
+      document.removeEventListener('mousedown', handleDocumentMouseDown);
     }
   }, [update]);
 

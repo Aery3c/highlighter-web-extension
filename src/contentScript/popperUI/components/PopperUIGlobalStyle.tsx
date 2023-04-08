@@ -17,6 +17,21 @@ const PopperUIGlobalStyle = createGlobalStyle`
     color: ${theme.light.blue.colorText};
     cursor: pointer;
   }
+  .${theme.dark.blue.className} {
+    background-color: ${theme.dark.blue.colorPrimary};
+    color: ${theme.dark.blue.colorText};
+    cursor: pointer;
+  }
+  .${theme.light.gold.className} {
+    background-color: ${theme.light.gold.colorPrimary};
+    color: ${theme.light.gold.colorText};
+    cursor: pointer;
+  }
+  .${theme.dark.gold.className} {
+    background-color: ${theme.dark.gold.colorPrimary};
+    color: ${theme.dark.gold.colorText};
+    cursor: pointer;
+  }
 `;
 
 export default PopperUIGlobalStyle;
