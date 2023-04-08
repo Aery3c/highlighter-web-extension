@@ -14,8 +14,28 @@ browser.runtime.onMessage.addListener(async function (request, sender) {
     case 'getTabId': {
       return sender.tab.id;
     }
+    case 'updateToolBarIcon': {
+      updateToolbarIcon(sender.tab.id, request.active);
+    }
   }
 
 });
 
 
+function updateToolbarIcon (tabId: number, active: boolean): void {
+  active
+    ? setToolbarIcon(tabId, 'extension_toolbar_active_icon')
+    : setToolbarIcon(tabId, 'extension_toolbar_icon')
+}
+
+function setToolbarIcon(tabId: number, iconName: string): void {
+  const smallIconPath = `./images/${iconName}16.png`
+  const bigIconPath = `./images/${iconName}32.png`
+  browser.action.setIcon({
+    tabId: tabId,
+    path: {
+      '19': smallIconPath,
+      '38': bigIconPath
+    }
+  })
+}

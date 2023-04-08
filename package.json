@@ -16,6 +16,7 @@
     "eslint": "7.1.0",
     "eslint-plugin-react": "^7.32.2",
     "parcel": "^2.8.3",
+    "parcel-reporter-static-files-copy": "^1.5.0",
     "process": "^0.11.10",
     "querystring-es3": "^0.2.1",
     "rimraf": "^4.4.1"
@@ -44,5 +45,8 @@
   },
   "resolutions": {
     "styled-components": "^5"
+  },
+  "staticFiles": {
+    "staticPath": "./src/assets"
   }
 }

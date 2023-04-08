@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import PopperInnerWithOperate from './components/PopperInnerWithOperate';
 import PopperUIGlobalStyle from './components/PopperUIGlobalStyle';
 
+interface Props {
+  onMount?: () => void;
+}
+
 const { useState, useEffect } = React;
 
 const PopperContainer = styled.div`
@@ -22,7 +26,7 @@ const virtualReference = {
   },
 };
 
-const PopperUI: React.FC = () => {
+const PopperUI: React.FC<Props> = ({ onMount }) => {
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes, update } = usePopper(
     virtualReference,
@@ -70,12 +74,12 @@ const PopperUI: React.FC = () => {
   }, [update]);
 
   return (
-    <>
+    <div ref={onMount}>
       <PopperUIGlobalStyle />
       <PopperContainer ref={setPopperElement} style={{ ...styles.popper }} {...attributes.popper}>
         <PopperInnerWithOperate hidePopper={hidePopper} showPopper={showPopper} />
       </PopperContainer>
-    </>
+    </div>
   )
 }
 export default PopperUI;

@@ -5,8 +5,8 @@
   "version": "1.0.0",
   "action": {
     "default_icon": {
-      "16": "./images/extension_toolbar_icon16.png",
-      "32": "./images/extension_toolbar_icon32.png"
+      "16": "./assets/images/extension_toolbar_icon16.png",
+      "32": "./assets/images/extension_toolbar_icon32.png"
     },
     "default_title": "A light highlighter"
   },
@@ -28,9 +28,9 @@
     ]
   }],
   "icons": {
-    "16": "./images/extension_toolbar_active_icon16.png",
-    "32": "./images/extension_toolbar_active_icon32.png",
-    "48": "./images/extension_active_icon48.png",
-    "128": "./images/extension_active_icon128.png"
+    "16": "./assets/images/extension_toolbar_active_icon16.png",
+    "32": "./assets/images/extension_toolbar_active_icon32.png",
+    "48": "./assets/images/extension_active_icon48.png",
+    "128": "./assets/images/extension_active_icon128.png"
   }
 }

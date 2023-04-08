@@ -10,10 +10,23 @@ import ThemeProvider from '../../common/components/ThemeProvider';
 import PopperUI from './PopperUI';
 import type {} from '../../styled';
 
+interface Message {
+  action: string;
+  [key: string]: any;
+}
+
+function sendMessageToBackground<T> (message: Message): Promise<T> {
+  return new Promise(resolve => {
+    browser.runtime.sendMessage(message).then((response: T) => {
+      resolve(response);
+    });
+  });
+}
+
 window.onload = async function () {
   if (document.body) {
-    const info: browser.Management.ExtensionInfo = await browser.runtime.sendMessage({ action: 'getExtensionInfo' });
-    const tabId: number = await browser.runtime.sendMessage({ action: 'getTabId' });
+    const info = await sendMessageToBackground<browser.Management.ExtensionInfo>({ action: 'getExtensionInfo' });
+    const tabId = await sendMessageToBackground<number>({ action: 'getTabId' });
 
     const proxyStore = new Store({
       portName: PROXY_STORE_PORT_NAME,
@@ -31,14 +44,15 @@ window.onload = async function () {
         <TabIdProvider tabId={tabId}>
           <ThemeProvider>
             <HighlighterProvider>
-              <PopperUI />
+              <PopperUI onMount={() => {
+                console.log('%c [PopperUI]: Mounted !!!', `color: pink; font-weight: bold;`);
+                sendMessageToBackground<void>({ action: 'updateToolBarIcon', active: true })
+              }}/>
             </HighlighterProvider>
           </ThemeProvider>
         </TabIdProvider>
       </Provider>
     );
-
-    console.log('%c [PopperUI]: loaded !!!', `color: pink; font-weight: bold;`)
   } else {
     console.error('[PopperUI error]: not found body element');
   }

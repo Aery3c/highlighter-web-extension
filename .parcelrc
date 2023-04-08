@@ -1,6 +1,7 @@
 {
-  "extends": "@parcel/config-webextension",
-	"validators": {
+    "extends": "@parcel/config-webextension",
+    "validators": {
 
-	}
+    },
+	"reporters":  ["...", "parcel-reporter-static-files-copy"]
 }
