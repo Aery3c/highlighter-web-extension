@@ -1,18 +1,22 @@
 import * as React from 'react';
 import { Highlighter } from 'highlighter';
 import { useTheme } from 'styled-components';
-export const HighlighterContext = React.createContext<Highlighter | null>(null);
+
+interface Props {
+  highlighter: Highlighter
+}
+export const HighlighterContext = React.createContext<Highlighter>(null);
 
 export const useHighlighter = () => {
   return React.useContext(HighlighterContext);
 }
-export const HighlighterProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const HighlighterProvider: React.FC<React.PropsWithChildren<Props>> = ({ children, highlighter}) => {
 
   const theme = useTheme();
   /**
    * @see https://react.dev/reference/react/useRef#parameters
    */
-  const ref = React.useRef(new Highlighter({ className: theme.className, normalize: false }));
+  const ref = React.useRef(highlighter);
 
   React.useEffect(() => {
     ref.current.setOptions({ ...ref.current.options, className: theme.className });

@@ -12,6 +12,7 @@ const { useState, useEffect } = React;
 
 const PopperContainer = styled.div`
   position: absolute;
+  z-index: 1001;
   visibility: hidden;
   pointer-events: none;
   &[popper-show] {

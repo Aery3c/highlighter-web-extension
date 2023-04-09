@@ -6,6 +6,7 @@ export interface Mark {
   end: number;
   className: string;
   text: string;
+  markId: number;
 }
 
 export interface PopperState {
@@ -20,7 +21,8 @@ export interface TabState {
 }
 
 export const addMark = createAction<{ tabId: number; mark: Mark;}>('tabs/addMark');
-export const removeMark = createAction<{ tabId: number; mark: Mark;}>('tabs/removeMark');
+export const removeMark = createAction<{ tabId: number; markId: number;}>('tabs/removeMark');
+export const updateMark = createAction<{ tabId: number; marks: Mark[] }>('tabs/updateMark');
 export const updatePopperState = createAction<{ tabId: number; popperState: PopperState}>('tabs/setPopperMount');
 export const removeTab = createAction<number>('tabs/removeTab');
 export const addTab = createAction<Tabs.Tab>('tabs/addTab');
@@ -30,24 +32,24 @@ const initialState: TabState = {};
 export const tabsReducer = createReducer(initialState, builder => {
   builder.addCase(addMark, (state, action) => {
     const { tabId, mark } = action.payload;
-    const marks = state[tabId].marks;
-    if (marks) {
-      // add
-      state[tabId].marks.push(mark);
-    } else {
-      // create
-      state[tabId].marks = [mark];
-    }
+    state[tabId].marks.push(mark);
   });
   builder.addCase(removeMark, (state, action) => {
-    const { tabId, mark: markWithRemoved } = action.payload;
+    const { tabId, markId: removeId } = action.payload;
     const marks = state[tabId].marks;
     let mark: Mark;
     for (let i = 0; (mark = marks[i]);) {
-      if (isEqual(mark, markWithRemoved)) {
+      if (mark.markId === removeId) {
         marks.splice(i++, 1);
       }
     }
+  });
+  builder.addCase(updateMark, (state, action) => {
+    const { tabId, marks } = action.payload;
+    state[tabId].marks = [
+      ...state[tabId].marks,
+      ...marks
+    ];
   });
   builder.addCase(updatePopperState, (state, action) => {
     const { tabId, popperState } = action.payload;
@@ -70,15 +72,10 @@ export const tabsReducer = createReducer(initialState, builder => {
   builder.addCase(updateTab, (state, action) => {
     const tabId = action.payload.id;
     state[tabId] = {
+      marks: [],
+      popperState: { isMount: false },
       ...state[tabId],
       ...action.payload,
     }
   });
 });
-
-function isEqual (mark: Mark, oldMark: Mark): boolean {
-  return (mark.start === oldMark.start)
-      && (mark.end === oldMark.end)
-      && (mark.className === oldMark.className)
-      && (mark.text === oldMark.text)
-}

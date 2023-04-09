@@ -1,9 +1,10 @@
-import { addMark, removeMark, updatePopperState, removeTab, addTab, updateTab } from './reducers/tabs';
+import { addMark, removeMark, updatePopperState, removeTab, addTab, updateTab, updateMark } from './reducers/tabs';
 import { updatePrimaryColor, updateTheme, toggleTheme } from './reducers/config';
 
 export {
   addMark,
   removeMark,
+  updateMark,
   removeTab,
   updateTab,
   addTab,
