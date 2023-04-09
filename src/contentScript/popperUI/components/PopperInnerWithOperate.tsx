@@ -68,14 +68,22 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hi
     showPopper(characterRange.toRange());
 
     await awaitUserClickDelete();
-    // highlighter.off('click', handleClickMarkElement);
-    highlighter.removeHighlight(highlight);
-
     removeMark({ tabId, markId: highlight.highlightId });
-    await localforage.removeItem(highlight.highlightId.toString());
+    const len = await localforage.length();
+    const keys = await localforage.keys();
+    const key = highlight.highlightId.toString();
 
+    if (len > 1) {
+      if (keys.indexOf(key) !== -1) {
+        await localforage.removeItem(highlight.highlightId.toString())
+      }
+    } else {
+      await localforage.clear();
+    }
+    highlighter.removeHighlight(highlight);
     hidePopper();
     setIsDelete(false);
+
   }
 
   React.useEffect(() => {
@@ -104,7 +112,7 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hi
           markId: highlight.highlightId
         }
         addMark({ tabId, mark });
-        localforage.setItem<Mark>(mark.markId.toString(), mark)
+        localforage.setItem<Mark>(mark.markId.toString(), mark);
       }
       hidePopper();
     } catch (error) {

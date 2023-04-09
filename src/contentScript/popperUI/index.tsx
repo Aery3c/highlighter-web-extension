@@ -59,9 +59,8 @@ window.onload = async function () {
           return data;
         }
       });
-
       proxyStore.dispatch(updateMark({ tabId, marks }));
-      highlighter.deserialize(marks);
+      highlighter.deserialize(marks.map(mark => ({ ...mark, highlightId: mark.markId })));
     }
 
     root.render(

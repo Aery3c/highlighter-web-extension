@@ -37,12 +37,7 @@ export const tabsReducer = createReducer(initialState, builder => {
   builder.addCase(removeMark, (state, action) => {
     const { tabId, markId: removeId } = action.payload;
     const marks = state[tabId].marks;
-    let mark: Mark;
-    for (let i = 0; (mark = marks[i]);) {
-      if (mark.markId === removeId) {
-        marks.splice(i++, 1);
-      }
-    }
+    state[tabId].marks = marks.filter(item => item.markId !== removeId);
   });
   builder.addCase(updateMark, (state, action) => {
     const { tabId, marks } = action.payload;
