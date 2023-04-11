@@ -1,6 +1,6 @@
 import * as browser from 'webextension-polyfill';
 import { initializeStore } from  '../store/store';
-import { toggleTheme, addTab, removeTab, updatePopperState, updateTab } from '../store/actions';
+import { toggleTheme, addTab, removeTab, setPopperMount, updateTab } from '../store/actions';
 
 const store = initializeStore();
 
@@ -25,7 +25,7 @@ browser.runtime.onMessage.addListener(async function (request, sender) {
     case 'popperMount': {
       const tabId = sender.tab.id;
       updateToolbarIcon(tabId, true);
-      store.dispatch(updatePopperState({ tabId, popperState: { isMount: true } }))
+      store.dispatch(setPopperMount({ tabId, isPopperMount: true }));
     }
   }
 

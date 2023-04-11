@@ -4,16 +4,17 @@ import * as localforage from 'localforage';
 import { createRoot } from "react-dom/client";
 import { Provider } from 'react-redux';
 import { Store } from 'webext-redux';
-import { Highlighter } from 'highlighter';
 import { PROXY_STORE_PORT_NAME } from '../../common/constants';
 import TabIdProvider from '../../common/components/TabIdProvider';
 import { HighlighterProvider } from '../../common/components/HighlighterProvider';
 import { LocalforageProvider } from '../../common/components/LocalforageProvider';
 import ThemeProvider from '../../common/components/ThemeProvider';
-import { updateMark } from '../../store/actions';
+import { theme } from '../../common/theme';
+import { replaceHighlights } from '../../store/actions';
 import PopperUI from './PopperUI';
-import type {} from '../../styled';
-
+import * as rangy from 'rangy';
+import 'rangy/lib/rangy-classapplier';
+import 'rangy/lib/rangy-highlighter';
 interface Message {
   action: string;
   [key: string]: any;
@@ -29,6 +30,8 @@ function sendMessageToBackground<T> (message: Message): Promise<T> {
 
 window.onload = async function () {
   if (document.body) {
+    rangy.init();
+
     const info = await sendMessageToBackground<browser.Management.ExtensionInfo>({ action: 'getExtensionInfo' });
     const tabId = await sendMessageToBackground<number>({ action: 'getTabId' });
     const proxyStore = new Store({
@@ -37,30 +40,34 @@ window.onload = async function () {
     });
 
     await proxyStore.ready();
+    const { themeType, primaryColor } = proxyStore.getState().config;
+    const highlighter = rangy.createHighlighter();
+    highlighter.addClassApplier(rangy.createClassApplier(theme[themeType][primaryColor].className, { normalize: false }));
 
-    const highlighter = new Highlighter({ normalize: false });
+    // const highlighter = new Highlighter({ normalize: false });
 
     const el = document.createElement('div');
     const container = document.body.appendChild(el);
     const root = createRoot(container);
 
     localforage.config({
-      name: 'highlighter-web-extension-marks',
-      storeName: `highlighter-web-extension-marks${new URL(window.location.href).pathname}`
+      name: 'highlighter-web-extension-highlights',
+      storeName: `highlighter-web-extension-highlights${new URL(window.location.href).pathname}`
     })
-
+    //
     await localforage.ready();
 
-    const len = await localforage.length(), data = [];
+    const len = await localforage.length(), data = ['type:textContent'];
     if (len) {
-      const marks = await localforage.iterate((value, key, iterationNumber) => {
+      const localSerializedHighlights = await localforage.iterate<string, string>((value, key, iterationNumber) => {
         data.push(value);
         if (iterationNumber === len) {
-          return data;
+          return data.join('|');
         }
       });
-      proxyStore.dispatch(updateMark({ tabId, marks }));
-      highlighter.deserialize(marks.map(mark => ({ ...mark, highlightId: mark.markId })));
+
+      highlighter.deserialize(localSerializedHighlights);
+      proxyStore.dispatch(replaceHighlights({ tabId, highlights: [...highlighter.highlights] }));
     }
 
     root.render(

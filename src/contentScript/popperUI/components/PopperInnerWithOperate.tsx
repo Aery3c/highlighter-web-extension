@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useTheme } from 'styled-components';
-import { CharacterRange } from 'highlighter';
 import { findIndex } from 'lodash';
 import { Button, ButtonGroup } from '../../../common/components/Button';
 import { Tooltip } from '../../../common/components/Tooltip';
@@ -10,10 +9,9 @@ import { useLocalforage } from '../../../common/components/LocalforageProvider';
 import { HighlightFilled, GithubFilled, LabelAddFilled, DeleteFilled } from '../../../common/components/icons';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../../../store/connect';
+import * as rangy from 'rangy';
 import type { ConnectedProps } from 'react-redux';
 import type { RootState } from '../../../store/store';
-import type { Mark } from '../../../store/reducers/tabs';
-import type Highlight from 'highlighter/lib/utils/highlight';
 
 const connector = connect((state: RootState) => ({ tabs: state.tabs }), mapDispatchToProps);
 
@@ -23,8 +21,8 @@ interface Props extends PropsFromRedux {
   showPopper: (range: Range) => void;
 }
 
-function isEqual (oldMark: Mark, characterRange: CharacterRange): boolean {
-  return !!characterRange.isEqual(new CharacterRange(oldMark.start, oldMark.end, document.body));
+function isSameCharRange (charRangeA: CharacterRange, charRangeB: CharacterRange): boolean {
+  return (charRangeA.start == charRangeB.start) && (charRangeA.end == charRangeB.end);
 }
 
 let promise;
@@ -53,66 +51,59 @@ const OutsideAlerter: React.FC<React.PropsWithChildren<{ outsideClick: () => voi
   return <div ref={ref}>{props.children}</div>;
 }
 
-const PopperInnerWithOperate: React.FC<Props> = ({ tabs, addMark, removeMark, hidePopper, showPopper }) => {
+const PopperInnerWithOperate: React.FC<Props> = ({ tabs, replaceHighlights, removeHighlight, hidePopper, showPopper }) => {
   const tabId = useTabId();
-  const marks: Mark[] = tabs?.[tabId]?.marks || [];
+  const storeHighlights: RangyHighlight[] = tabs?.[tabId]?.highlights || [];
   const highlighter = useHighlighter();
   const localforage = useLocalforage();
   const theme = useTheme();
   const [isDelete, setIsDelete] = React.useState<boolean>(false);
 
-  const handleClickMarkElement = async (highlight: Highlight) => {
+  const handleClickHighlightElement = async (event: MouseEvent) => {
+    const highlight: RangyHighlight | null = highlighter.getHighlightForElement(event.target as HTMLElement);
     if (highlight === null) return;
+
     setIsDelete(true);
-    const { characterRange } = highlight;
-    showPopper(characterRange.toRange());
+    showPopper(highlight.getRange().nativeRange);
 
     await awaitUserClickDelete();
-    removeMark({ tabId, markId: highlight.highlightId });
-    const len = await localforage.length();
-    const keys = await localforage.keys();
-    const key = highlight.highlightId.toString();
+    highlighter.removeHighlights([highlight]);
+    removeHighlight({ tabId, highlightId: highlight.id });
 
-    if (len > 1) {
-      if (keys.indexOf(key) !== -1) {
-        await localforage.removeItem(highlight.highlightId.toString())
-      }
-    } else {
-      await localforage.clear();
-    }
-    highlighter.removeHighlight(highlight);
+    localforage.removeItem(highlight.id.toString())
+
     hidePopper();
     setIsDelete(false);
 
   }
 
   React.useEffect(() => {
-    highlighter.on('click', handleClickMarkElement);
+    const highlightEl = document.querySelectorAll(`.${theme.className}`);
+    highlightEl.forEach(el => {
+      el.addEventListener('click', handleClickHighlightElement);
+    });
 
     return () => {
-      highlighter.off('click', handleClickMarkElement);
+      highlightEl.forEach(el => {
+        el.removeEventListener('click', handleClickHighlightElement);
+      });
     }
-  }, [highlighter, showPopper, hidePopper, removeMark, tabId, theme]);
+  });
 
-  const handleClickHighlighter = () => {
+  const handleClickHighlighter = async () => {
     try {
-      const sel = window.getSelection(), range = sel.getRangeAt(0);
+      const [range] = rangy.getSelection().getAllRanges();
+      const characterRange = highlighter.converter.rangeToCharacterRange(range, document.body);
 
-      const characterRange = CharacterRange.fromRange(range, document.body);
-      if (findIndex( marks,m => isEqual(m, characterRange) && (m.className === theme.className) ) === -1 ) {
-        /**
-         * Add the union if it does not exist
-         */
-        const [highlight] = highlighter.useSelection({ selection: sel });
-        const mark = {
-          start: characterRange.start,
-          end: characterRange.end,
-          className: theme.className,
-          text: highlight.getText(),
-          markId: highlight.highlightId
+      if (findIndex(storeHighlights, item => isSameCharRange(item.characterRange, characterRange)) == -1) {
+        highlighter.highlightSelection(theme.className, { exclusive: true });
+        replaceHighlights({ tabId, highlights: [...highlighter.highlights] });
+
+        const serializedHighlights = highlighter.serialize().split('|');
+        await localforage.clear();
+        for (let i = 1, serializedHighlight; (serializedHighlight = serializedHighlights[i++]);) {
+          localforage.setItem<string>(serializedHighlight.split('$')[2], serializedHighlight);
         }
-        addMark({ tabId, mark });
-        localforage.setItem<Mark>(mark.markId.toString(), mark);
       }
       hidePopper();
     } catch (error) {

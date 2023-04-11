@@ -1,76 +1,48 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
 import type { Tabs } from 'webextension-polyfill';
 
-export interface Mark {
-  start: number;
-  end: number;
-  className: string;
-  text: string;
-  markId: number;
-}
-
-export interface PopperState {
-  isMount: boolean;
-}
-
-export interface TabState {
-  [key: number]: Tabs.Tab & {
-    marks?: Mark[],
-    popperState?: PopperState;
+interface TabState {
+	[key: number]: Tabs.Tab & {
+    highlights: RangyHighlight[],
+    isPopperMount: boolean;
   }
 }
 
-export const addMark = createAction<{ tabId: number; mark: Mark;}>('tabs/addMark');
-export const removeMark = createAction<{ tabId: number; markId: number;}>('tabs/removeMark');
-export const updateMark = createAction<{ tabId: number; marks: Mark[] }>('tabs/updateMark');
-export const updatePopperState = createAction<{ tabId: number; popperState: PopperState}>('tabs/setPopperMount');
+const initialState: TabState = {};
 export const removeTab = createAction<number>('tabs/removeTab');
 export const addTab = createAction<Tabs.Tab>('tabs/addTab');
 export const updateTab = createAction<Tabs.Tab>('tabs/updateTab');
-
-const initialState: TabState = {};
+export const setPopperMount = createAction<{ tabId: number; isPopperMount: boolean}>('tabs/setPopperMount');
+export const addHighlight = createAction<{ tabId: number; RangyHighlight: RangyHighlight }>('tabs/addHighlight');
+export const replaceHighlights = createAction<{ tabId: number; highlights: RangyHighlight[] }>('tabs/replaceHighlights');
+export const removeHighlight = createAction<{ tabId: number; highlightId: number }>('tabs/removeHighlight');
 export const tabsReducer = createReducer(initialState, builder => {
-  builder.addCase(addMark, (state, action) => {
-    const { tabId, mark } = action.payload;
-    state[tabId].marks.push(mark);
-  });
-  builder.addCase(removeMark, (state, action) => {
-    const { tabId, markId: removeId } = action.payload;
-    const marks = state[tabId].marks;
-    state[tabId].marks = marks.filter(item => item.markId !== removeId);
-  });
-  builder.addCase(updateMark, (state, action) => {
-    const { tabId, marks } = action.payload;
-    state[tabId].marks = [
-      ...state[tabId].marks,
-      ...marks
-    ];
-  });
-  builder.addCase(updatePopperState, (state, action) => {
-    const { tabId, popperState } = action.payload;
-    const currentTab = state[tabId];
-    currentTab.popperState = {
-      ...currentTab.popperState,
-      ...popperState,
-    }
-  });
-  builder.addCase(addTab, (state, action) => {
-    state[action.payload.id] = {
-      ...action.payload,
-      marks: [],
-      popperState: { isMount: false }
-    }
-  });
-  builder.addCase(removeTab, (state, action) => {
-    delete state[action.payload];
-  });
-  builder.addCase(updateTab, (state, action) => {
-    const tabId = action.payload.id;
-    state[tabId] = {
-      marks: [],
-      popperState: { isMount: false },
-      ...state[tabId],
-      ...action.payload,
-    }
-  });
+	builder.addCase(addTab, (state, { payload }) => {
+		state[payload.id] = {
+			highlights: [],
+			isPopperMount: false,
+			...payload
+		};
+	});
+	builder.addCase(updateTab, (state, { payload }) => {
+		state[payload.id] = {
+			highlights: [],
+			isPopperMount: false,
+			...payload,
+			...state[payload.id]
+		};
+	});
+	builder.addCase(removeTab, (state, { payload: tabId }) => {
+		delete state[tabId];
+	});
+	builder.addCase(addHighlight, (state, { payload: { tabId, RangyHighlight } }) => {
+		state[tabId].highlights.push(RangyHighlight);
+	});
+	builder.addCase(replaceHighlights, (state, { payload: { tabId, highlights } }) => {
+		state[tabId].highlights = highlights;
+	});
+	builder.addCase(removeHighlight, (state, { payload: { tabId, highlightId } }) => {
+		const highlights = state[tabId].highlights;
+    state[tabId].highlights = highlights.filter(item => item.id !== highlightId);
+	});
 });
