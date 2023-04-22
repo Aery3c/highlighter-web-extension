@@ -65,11 +65,11 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
   },
   dark: {
     gold: {
-      colorBgContainer: '#ffffff',
-      colorText: 'rgba(0, 0, 0, 0.88)',
-      colorBorder: '#d9d9d9',
-      colorBgSpotlight: 'rgba(0, 0, 0, 0.85)',
-      tooltipBg: '#000000',
+      colorBgContainer: '#141414',
+      colorText: 'rgba(255, 255, 255, 0.85)',
+      colorBorder: '#424242',
+      colorBgSpotlight: '#424242',
+      tooltipBg: '#424242',
       tooltipColor: '#ffffff',
       colorPrimaryBg: '#2a241c',
       colorPrimaryBgHover: '#423827',
@@ -81,7 +81,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#e8d09e',
       colorPrimaryText: '#d2af6e',
       colorPrimaryTextActive: '#a58a59',
-      className: 'highlighter-dark-light'
+      className: 'highlighter-gold-dark'
     },
     orange: {
       colorBgContainer: '#141414',

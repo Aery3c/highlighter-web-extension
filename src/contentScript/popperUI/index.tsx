@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as browser from 'webextension-polyfill';
 import * as localforage from 'localforage';
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Store } from 'webext-redux';
 import { PROXY_STORE_PORT_NAME } from '../../common/constants';
@@ -15,6 +15,7 @@ import PopperUI from './PopperUI';
 import * as rangy from 'rangy';
 import 'rangy/lib/rangy-classapplier';
 import 'rangy/lib/rangy-highlighter';
+import { getSysTheme } from '../../common/helpers';
 interface Message {
   action: string;
   [key: string]: any;
@@ -40,9 +41,10 @@ window.onload = async function () {
     });
 
     await proxyStore.ready();
-    const { themeType, primaryColor } = proxyStore.getState().config;
+    const { primaryColor } = proxyStore.getState().config;
+    const pageTheme = getSysTheme();
     const highlighter = rangy.createHighlighter();
-    highlighter.addClassApplier(rangy.createClassApplier(theme[themeType][primaryColor].className, { normalize: false }));
+    highlighter.addClassApplier(rangy.createClassApplier(theme[pageTheme][primaryColor].className, { normalize: false }));
 
     // const highlighter = new Highlighter({ normalize: false });
 
@@ -61,6 +63,7 @@ window.onload = async function () {
     if (len) {
       const localSerializedHighlights = await localforage.iterate<string, string>((value, key, iterationNumber) => {
         data.push(value);
+        highlighter.addClassApplier(rangy.createClassApplier(value.split('$')[3], { normalize: false }));
         if (iterationNumber === len) {
           return data.join('|');
         }

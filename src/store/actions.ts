@@ -1,5 +1,5 @@
 import { removeTab, addTab, updateTab, setPopperMount, addHighlight, removeHighlight, replaceHighlights } from './reducers/tabs';
-import { updatePrimaryColor, updateTheme, toggleTheme } from './reducers/config';
+import { updatePrimaryColor, updateTheme, toggleTheme, updateConfig } from './reducers/config';
 
 export {
   removeTab,
@@ -11,5 +11,6 @@ export {
   replaceHighlights,
   updatePrimaryColor,
   updateTheme,
-  toggleTheme
+  toggleTheme,
+  updateConfig
 }

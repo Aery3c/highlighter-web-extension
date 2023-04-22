@@ -1,19 +1,13 @@
 import * as browser from 'webextension-polyfill';
 import { initializeStore } from  '../store/store';
-import { toggleTheme, addTab, removeTab, setPopperMount, updateTab } from '../store/actions';
+import { addTab, removeTab, setPopperMount, updateTab } from '../store/actions';
 
 const store = initializeStore();
 
-// tabsObserver(store, (tabs) => {
-//   forOwn(tabs, (tab, tabId) => {
-//     if (tab.popperState.isMount) {
-//       updateToolbarIcon(Number(tabId), true);
-//     }
-//   });
+// browser.storage.sync.get().then(data => {
+//   console.log(systemTheme);
 // });
-browser.action.onClicked.addListener(function (tab, info) {
-  store.dispatch(toggleTheme());
-});
+
 browser.runtime.onMessage.addListener(async function (request, sender) {
   switch (request.action) {
     case 'getExtensionInfo': {

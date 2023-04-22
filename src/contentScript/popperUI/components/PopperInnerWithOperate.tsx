@@ -78,7 +78,7 @@ const PopperInnerWithOperate: React.FC<Props> = ({ tabs, replaceHighlights, remo
   }
 
   React.useEffect(() => {
-    const highlightEl = document.querySelectorAll(`.${theme.className}`);
+    const highlightEl = document.querySelectorAll('span[class^=highlighter]');
     highlightEl.forEach(el => {
       el.addEventListener('click', handleClickHighlightElement);
     });
