@@ -24,6 +24,7 @@ declare module 'styled-components' {
 		colorPrimaryTextHover: string;
 		colorPrimaryText: string;
 		colorPrimaryTextActive: string;
+		colorBgMask: string;
 		className: string;
 	}
 }

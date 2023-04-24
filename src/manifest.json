@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "highlighter",
-  "description": "划词高亮助手",
+  "description": "web-mark-helper",
   "version": "1.0.0",
   "action": {
     "default_icon": {
@@ -12,7 +12,8 @@
   },
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "background": {
     "service_worker": "./background/background.ts",
@@ -27,6 +28,10 @@
       "./contentScript/popperUI/index.tsx"
     ]
   }],
+  "options_ui": {
+    "page": "./options/options.html",
+    "open_in_tab": true
+  },
   "icons": {
     "16": "./assets/images/extension_toolbar_active_icon16.png",
     "32": "./assets/images/extension_toolbar_active_icon32.png",

@@ -22,6 +22,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#ffe5ad',
       colorPrimaryText: '#f3ca7e',
       colorPrimaryTextActive: '#cca360',
+      colorBgMask: 'rgba(0, 0, 0, 0.45)',
       className: 'highlighter-gold-light'
     },
     orange: {
@@ -41,6 +42,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#ffc53d',
       colorPrimaryText: '#faad14',
       colorPrimaryTextActive: '#d48806',
+      colorBgMask: 'rgba(0, 0, 0, 0.45)',
       className: 'highlighter-orange-light'
     },
     blue: {
@@ -60,6 +62,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#4096ff',
       colorPrimaryText: '#1677ff',
       colorPrimaryTextActive: '#0958d9',
+      colorBgMask: 'rgba(0, 0, 0, 0.45)',
       className: 'highlighter-blue-light'
     }
   },
@@ -81,6 +84,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#e8d09e',
       colorPrimaryText: '#d2af6e',
       colorPrimaryTextActive: '#a58a59',
+      colorBgMask: 'rgba(0, 0, 0, 0.45)',
       className: 'highlighter-gold-dark'
     },
     orange: {
@@ -100,6 +104,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#e8b339',
       colorPrimaryText: '#d89614',
       colorPrimaryTextActive: '#aa7714',
+      colorBgMask: 'rgba(0, 0, 0, 0.45)',
       className: 'highlighter-orange-dark'
     },
     blue: {
@@ -119,6 +124,7 @@ export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme
       colorPrimaryTextHover: '#3c89e8',
       colorPrimaryText: '#1668dc',
       colorPrimaryTextActive: '#1554ad',
+      colorBgMask: 'rgba(0, 0, 0, 0.45)',
       className: 'highlighter-blue-dark'
     }
   },

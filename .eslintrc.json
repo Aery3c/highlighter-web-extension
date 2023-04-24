@@ -20,7 +20,8 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/ban-ts-comment": "off"
+        "@typescript-eslint/ban-ts-comment": "off",
+        "react/no-unknown-property": ["error", { "ignore": ["css"] }]
     },
     "settings": {
         "react": {
