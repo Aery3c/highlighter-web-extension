@@ -1,6 +1,6 @@
 import type { DefaultTheme } from 'styled-components';
 
-export type ThemeColor = 'dark' | 'light';
+export type ThemeColor = 'dark' | 'light' | undefined;
 export type PrimaryColor = 'red' | 'volcano' | 'orange' | 'gold' | 'yellow' | 'lime' | 'green' | 'cyan' | 'blue' | 'geekblue' | 'purple' | 'magenta';
 
 export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme>>> = {

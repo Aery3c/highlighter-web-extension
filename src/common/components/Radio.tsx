@@ -4,10 +4,11 @@ import { useTheme } from 'styled-components';
 
 interface RadioProps {
 	name?: string;
+	value?: any;
 	defaultChecked?: boolean;
 	onChange?: React.ChangeEventHandler<HTMLInputElement>
 }
-const Radio: React.FC<React.PropsWithChildren<RadioProps>> = ({ children, name, onChange, defaultChecked }) => {
+const Radio: React.FC<React.PropsWithChildren<RadioProps>> = ({ children, name, onChange, defaultChecked, value }) => {
 
 	const theme = useTheme();
 
@@ -23,7 +24,7 @@ const Radio: React.FC<React.PropsWithChildren<RadioProps>> = ({ children, name, 
         border: 1px solid ${theme.colorPrimaryText};
       }
 		`}>
-			<input type="radio" name={name} onChange={onChange} defaultChecked={defaultChecked} css={`
+			<input type="radio" name={name} value={value} onChange={onChange} defaultChecked={defaultChecked} css={`
         -webkit-appearance: none;
         appearance: none;
         display: grid;
@@ -40,11 +41,11 @@ const Radio: React.FC<React.PropsWithChildren<RadioProps>> = ({ children, name, 
           content: "";
           width: 1em;
           height: 1em;
-					background-color: ${theme.colorText};
+					background-color: #ffffff;
           border-radius: 50%;
           transform: scale(0);
           transition: 120ms transform ease-in-out;
-          box-shadow: inset 1em 1em ${theme.colorText};
+          box-shadow: inset 1em 1em #ffffff;
 				}
 				&:checked {
           background-color: ${theme.colorPrimary};
