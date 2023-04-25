@@ -63,6 +63,24 @@ const Options: React.FC<PropsFromRedux> = ({ config, toggleTheme }) => {
 					/>
 				</Row>
 
+				<Row>
+					<div>primary</div>
+					<div>
+						<div css={`
+              background: rgb(244, 115, 115);
+              height: 22px;
+              width: 22px;
+              cursor: pointer;
+              position: relative;
+              outline: none;
+              float: left;
+              margin-right: 10px;
+              margin-bottom: 10px;
+              border-radius: 4px;
+					`}></div>
+					</div>
+				</Row>
+
 			</Container>
 		</div>
 	)

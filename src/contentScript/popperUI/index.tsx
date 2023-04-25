@@ -9,13 +9,13 @@ import TabIdProvider from '../../common/components/TabIdProvider';
 import { HighlighterProvider } from '../../common/components/HighlighterProvider';
 import { LocalforageProvider } from '../../common/components/LocalforageProvider';
 import ThemeProvider from '../../common/components/ThemeProvider';
-import { theme } from '../../common/theme';
 import { replaceHighlights } from '../../store/actions';
 import PopperUI from './PopperUI';
 import * as rangy from 'rangy';
 import 'rangy/lib/rangy-classapplier';
 import 'rangy/lib/rangy-highlighter';
-import { getSysTheme } from '../../common/helpers';
+import { createClassApplier } from '../../common/helpers';
+
 interface Message {
   action: string;
   [key: string]: any;
@@ -41,10 +41,10 @@ window.onload = async function () {
     });
 
     await proxyStore.ready();
-    const { primaryColor } = proxyStore.getState().config;
-    const pageTheme = getSysTheme();
+    // const { primaryColor } = proxyStore.getState().config;
+    // const pageTheme = getSysTheme();
     const highlighter = rangy.createHighlighter();
-    highlighter.addClassApplier(rangy.createClassApplier(theme[pageTheme][primaryColor].className, { normalize: false }));
+    // highlighter.addClassApplier(rangy.createClassApplier(theme[pageTheme][primaryColor].className, { normalize: false }));
 
     // const highlighter = new Highlighter({ normalize: false });
 
@@ -63,7 +63,7 @@ window.onload = async function () {
     if (len) {
       const localSerializedHighlights = await localforage.iterate<string, string>((value, key, iterationNumber) => {
         data.push(value);
-        highlighter.addClassApplier(rangy.createClassApplier(value.split('$')[3], { normalize: false }));
+        highlighter.addClassApplier(createClassApplier(value.split('$')[3]));
         if (iterationNumber === len) {
           return data.join('|');
         }

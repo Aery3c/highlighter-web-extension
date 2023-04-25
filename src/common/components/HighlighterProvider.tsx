@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTheme } from 'styled-components';
 import * as rangy from 'rangy';
+import { createClassApplier } from '../helpers';
 interface Props {
   highlighter: Highlighter
 }
@@ -18,7 +19,7 @@ export const HighlighterProvider: React.FC<React.PropsWithChildren<Props>> = ({ 
   const theme = useTheme();
 
   React.useEffect(() => {
-    highlighter.addClassApplier(rangy.createClassApplier(theme.className, { normalize: false }));
+    highlighter.addClassApplier(createClassApplier(theme.className));
   }, [theme]);
 
   return (

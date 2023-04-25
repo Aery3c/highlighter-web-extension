@@ -1,9 +1,7 @@
-import type { DefaultTheme } from 'styled-components';
-
-export type ThemeColor = 'dark' | 'light' | undefined;
-export type PrimaryColor = 'red' | 'volcano' | 'orange' | 'gold' | 'yellow' | 'lime' | 'green' | 'cyan' | 'blue' | 'geekblue' | 'purple' | 'magenta';
-
-export const theme: Record<ThemeColor, Partial<Record<PrimaryColor, DefaultTheme>>> = {
+export type ThemeColor = keyof typeof theme;
+export type PrimaryColor = keyof typeof theme[ThemeColor]
+export type Theme = typeof theme;
+export const theme = {
   light: {
     gold: {
       colorBgContainer: '#ffffff',
