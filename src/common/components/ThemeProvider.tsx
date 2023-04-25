@@ -12,10 +12,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const ThemeProvider: React.FC<React.PropsWithChildren<PropsFromRedux>> = ({ children, config }) => {
 	const { primaryColor, themeColor } = config;
-	const pageTheme = React.useMemo(getSysTheme, []);
+	const sysTheme = React.useMemo(getSysTheme, []);
 
 	return (
-		<Provider theme={theme?.[themeColor || pageTheme]?.[primaryColor]}>
+		<Provider theme={theme?.[themeColor || sysTheme]?.[primaryColor]}>
 			{children}
 		</Provider>
 	)

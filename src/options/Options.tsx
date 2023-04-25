@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import ThemeRadioGroup from './components/ThemeRadioGroup';
+import ColorBlockGroup from './components/ColorBlockGroup';
 import { mapDispatchToProps } from '../store/connect';
 import type { ConnectedProps } from 'react-redux';
 import type { RootState } from '../store/store';
@@ -12,11 +13,11 @@ const Row = styled.div`
   display: flex; 
 	align-items: center; 
 	padding: 20px 0;
-	div:first-child {
+	& > div:first-child {
     flex: 1;
 		font-weight: 500;
 	}
-	div:last-child {
+	& > div:last-child {
 		flex: 2;
 	}
 `
@@ -32,7 +33,7 @@ const connector = connect((state: RootState) => ({ config: state.config }), mapD
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const Options: React.FC<PropsFromRedux> = ({ config, toggleTheme }) => {
+const Options: React.FC<PropsFromRedux> = ({ config, toggleTheme, togglePrimary }) => {
 	return (
 		<div css={`
 			background-color: ${props => props.theme.colorBgContainer};
@@ -65,20 +66,10 @@ const Options: React.FC<PropsFromRedux> = ({ config, toggleTheme }) => {
 
 				<Row>
 					<div>primary</div>
-					<div>
-						<div css={`
-              background: rgb(244, 115, 115);
-              height: 22px;
-              width: 22px;
-              cursor: pointer;
-              position: relative;
-              outline: none;
-              float: left;
-              margin-right: 10px;
-              margin-bottom: 10px;
-              border-radius: 4px;
-					`}></div>
-					</div>
+					<ColorBlockGroup
+						themeColor={config.themeColor}
+						onChange={togglePrimary}
+					/>
 				</Row>
 
 			</Container>

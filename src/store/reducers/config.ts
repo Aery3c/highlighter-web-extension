@@ -16,6 +16,7 @@ const initialState: ConfigState = {
 export const updatePrimaryColor = createAction<PrimaryColor>('config/updatePrimaryColor');
 export const updateTheme = createAction<ThemeColor>('config/updateTheme');
 export const toggleTheme = createAction<ThemeColor>('config/toggleTheme');
+export const togglePrimary = createAction<PrimaryColor>('config/togglePrimary');
 export const updateConfig = createAction<Partial<ConfigState>>('config/updateConfig');
 export const configReducer = createReducer(initialState, builder => {
   builder.addCase(updatePrimaryColor, (state, action) => {
@@ -32,5 +33,8 @@ export const configReducer = createReducer(initialState, builder => {
     forIn(payload, (value, key) => {
       state[key] = value;
     });
+  });
+  builder.addCase(togglePrimary, (state, { payload }) => {
+    state.primaryColor = payload;
   });
 });
