@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useTheme } from 'styled-components';
-import * as rangy from 'rangy';
 import { createClassApplier } from '../helpers';
 interface Props {
   highlighter: Highlighter
